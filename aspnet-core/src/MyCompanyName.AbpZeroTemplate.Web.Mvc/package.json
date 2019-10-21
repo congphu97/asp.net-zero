@@ -95,7 +95,7 @@
     "globby": "^9.2.0",
     "merge-stream": "^1.0.1",
     "rimraf": "^2.6.3",
-    "yarn": "^1.15.0",
+    "yarn": "^1.17.3",
     "gulp": "^4.0.1",
     "gulp-concat": "^2.6.1",
     "gulp-less": "^4.0.1",
