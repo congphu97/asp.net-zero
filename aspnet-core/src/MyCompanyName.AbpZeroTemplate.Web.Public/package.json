@@ -7,7 +7,7 @@
   "version": "7.1.0",
   "dependencies": {
     "bootstrap": "^3.3.7",
-    "jquery": "2.2.0",
+    "jquery": "3.4.0",
     "jquery.uniform": "^4.3.0",
     "toastr": "^2.1.2",
     "famfamfam-flags": "^1.0.0",
