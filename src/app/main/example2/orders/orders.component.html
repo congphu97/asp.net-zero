@@ -1,0 +1,242 @@
+<div [@routerTransition]>
+    <div class="kt-subheader kt-grid__item">
+        <div class="kt-subheader__main">
+            <h3 class="kt-subheader__title">
+                <span>{{l("Orders")}}</span>
+            </h3>
+            <span class="kt-subheader__separator kt-subheader__separator--v"></span>
+            <span class="kt-subheader__desc">
+                {{l("OrdersHeaderInfo")}}
+            </span>
+        </div>
+        <div class="kt-subheader__toolbar">
+            <div class="kt-subheader__wrapper">
+                <button (click)="exportToExcel()" class="btn btn-outline-success"><i class="fa fa-file-excel"></i>
+                    {{l("ExportToExcel")}}</button>
+                <button *ngIf="isGranted('Pages.Orders.Create')" (click)="createOrder()" class="btn btn-primary blue"><i
+                        class="fa fa-plus"></i> {{l("CreateNewOrder")}}</button>
+            </div>
+        </div>
+    </div>
+    <div class="kt-content">
+        <div class="kt-portlet kt-portlet--mobile">
+            <div class="kt-portlet__body">
+
+                <form class="kt-form" autocomplete="off">
+                    <div>
+                        <div class="row align-items-center mb-4">
+                            <div class="col-xl-12">
+                                <div class="form-group m-form__group align-items-center">
+                                    <div class="input-group">
+                                        <input [(ngModel)]="filterText" name="filterText" autoFocus
+                                            class="form-control m-input" [placeholder]="l('SearchWithThreeDot')"
+                                            type="text">
+                                        <span class="input-group-btn">
+                                            <button (click)="getOrders()" class="btn btn-primary" type="submit"><i
+                                                    class="flaticon-search-1"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m--margin-bottom-10" [hidden]="!advancedFiltersAreShown">
+                            <div class="col-md-12">
+                                <div class="m-separator m-separator--dashed"></div>
+                            </div>
+
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="ProductIDFilter">{{l("ProductID")}}</label>
+                                    <input type="text" class="form-control" id="ProductIDFilter" name="productIDFilter"
+                                        [(ngModel)]="productIDFilter">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="OrderDateFilter">{{l("OrderDate ")}}</label>
+                                    <input type="text" class="form-control" id="OrderDateFilter" name="orderDateFilter"
+                                        [(ngModel)]="orderDateFilter">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="StatusFilter">{{l("Status")}}</label>
+                                    <input type="text" class="form-control" id="StatusFilter" name="statusFilter"
+                                        [(ngModel)]="statusFilter">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="PaymentDateFilter">{{l("PaymentDate")}}</label>
+                                    <input type="text" class="form-control" id="PaymentDateFilter"
+                                        name="paymentDateFilter" [(ngModel)]="paymentDateFilter">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="MinAmountFilter">{{l("MinMax")}} {{l("Amount")}}</label>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" id="MinAmountFilter"
+                                            [(ngModel)]="minAmountFilter" placeholder="{{l('MinValue')}}"
+                                            name="minAmountFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxAmountFilter"
+                                            placeholder="{{l('MaxValue')}}" name="maxAmountFilter" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="MinTotalVATFilter">{{l("MinMax")}} {{l("TotalVAT")}}</label>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" id="MinTotalVATFilter"
+                                            [(ngModel)]="minTotalVATFilter" placeholder="{{l('MinValue')}}"
+                                            name="minTotalVATFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxTotalVATFilter"
+                                            placeholder="{{l('MaxValue')}}" name="maxTotalVATFilter" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="UserFilter">{{l("User")}}</label>
+                                    <input type="text" class="form-control" id="UserFilter" name="userFilter"
+                                        [(ngModel)]="userFilter">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row margin-bottom-10">
+                            <div class="col-sm-12">
+                                <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown"
+                                    (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i
+                                        class="fa fa-angle-down"></i> {{l("ShowAdvancedFilters")}}</span>
+                                <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown"
+                                    (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i
+                                        class="fa fa-angle-up"></i> {{l("HideAdvancedFilters")}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="row align-items-center">
+                    <!--<Primeng-Datatable-Start>-->
+                    <div class="primeng-datatable-container col-12" [busyIf]="primengTableHelper.isLoading">
+                        <p-table #dataTable (onLazyLoad)="getOrders($event)" [value]="primengTableHelper.records"
+                            rows="{{primengTableHelper.defaultRecordsCountPerPage}}" [paginator]="false" [lazy]="true"
+                            [scrollable]="true" ScrollWidth="100%" [responsive]="primengTableHelper.isResponsive"
+                            [resizableColumns]="primengTableHelper.resizableColumns">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 130px"
+                                        [hidden]="!isGrantedAny('Pages.Orders.Edit', 'Pages.Orders.Delete')">
+                                        {{l('Actions')}}</th>
+                                    <th style="width: 150px" pSortableColumn="order.productID">
+                                        {{l('ProductID')}}
+                                        <p-sortIcon field="order.productID"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="order.orderDate">
+                                        {{l('OrderDate')}}
+                                        <p-sortIcon field="order.orderDate"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="order.status">
+                                        {{l('Status')}}
+                                        <p-sortIcon field="order.status"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="order.paymentDate">
+                                        {{l('PaymentDate')}}
+                                        <p-sortIcon field="order.paymentDate"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="order.amount">
+                                        {{l('Amount')}}
+                                        <p-sortIcon field="order.amount"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="order.totalVAT">
+                                        {{l('TotalVAT')}}
+                                        <p-sortIcon field="order.totalVAT"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="order.user">
+                                        {{l('User')}}
+                                        <p-sortIcon field="order.user"></p-sortIcon>
+                                    </th>
+
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-record="$implicit">
+                                <tr>
+                                    <td style="width: 130px"
+                                        [hidden]="!isGrantedAny('Pages.Orders.Edit', 'Pages.Orders.Delete')">
+                                        <div class="btn-group dropdown" dropdown normalizePosition>
+                                            <button dropdownToggle class="dropdown-toggle btn btn-sm btn-primary"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
+                                            </button>
+                                            <ul class="dropdown-menu" *dropdownMenu>
+                                                <li>
+                                                        <a (click)="confirm.show(record)">{{l('Pay')}}</a>
+                                                </li>
+                                                <li>
+                                                    <a (click)="viewOrderModal.show(record)">{{l('View')}}</a>
+                                                </li>
+                                                <li>
+                                                    <a *ngIf="permission.isGranted('Pages.Orders.Edit')"
+                                                        (click)="createOrEditOrderModal.show(record.order.id)">{{l('Edit')}}</a>
+                                                </li>
+                                                <li>
+                                                    <a *ngIf="permission.isGranted('Pages.Orders.Delete')"
+                                                        (click)="deleteOrder(record.order)">{{l('Delete')}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td style="width:150px">
+                                        <span class="ui-column-title"> {{l('ProductID')}}</span>
+                                        {{record.order.productID}}
+                                    </td>
+                                    <td style="width:150px">
+                                        <span class="ui-column-title"> {{l('OrderDate')}}</span>
+                                        {{record.order.orderDate | date }}
+                                    </td>
+                                    <td style="width:150px">
+                                        <span class="ui-column-title"> {{l('Status')}}</span>
+                                        {{record.order.status}}
+                                    </td>
+                                    <td style="width:150px">
+                                        <span class="ui-column-title"> {{l('PaymentDate')}}</span>
+                                        {{record.order.paymentDate | date}}
+                                    </td>
+                                    <td style="width:150px">
+                                        <span class="ui-column-title"> {{l('Amount')}}</span>
+                                        {{record.order.amount}}
+                                    </td>
+                                    <td style="width:150px">
+                                        <span class="ui-column-title"> {{l('TotalVAT')}}</span>
+                                        {{record.order.totalVAT | currency:"VND" }}
+                                    </td>
+                                    <td style="width:150px">
+                                        <span class="ui-column-title"> {{l('User')}}</span>
+                                        {{record.order.user}}
+                                    </td>
+
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                     
+                        <div class="primeng-paging-container">
+                            <p-paginator rows="{{primengTableHelper.defaultRecordsCountPerPage}}" #paginator
+                                (onPageChange)="getOrders($event)" [totalRecords]="primengTableHelper.totalRecordsCount"
+                                [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                            </p-paginator>
+                         
+                        </div>
+                    </div>
+                    <!--<Primeng-Datatable-End>-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <createOrEditOrderModal #createOrEditOrderModal (modalSave)="getOrders()"></createOrEditOrderModal>
+    <viewOrderModal #viewOrderModal></viewOrderModal>
+    <confirm #confirm></confirm>
+</div>

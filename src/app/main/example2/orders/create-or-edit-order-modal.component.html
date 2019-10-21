@@ -1,0 +1,98 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+	aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<form *ngIf="active" #orderForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+				<div class="modal-header">
+					<h4 class="modal-title">
+						<span *ngIf="order.id">{{l("EditOrder")}}</span>
+						<span *ngIf="!order.id">{{l("CreateNewOrder")}}</span>
+					</h4>
+					<button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+
+					<div>
+						<label>{{("Category")}}</label>
+						<select class="form-control" [(ngModel)]="category" name="selectCategory"
+							(change)="getValueCategory(category)" required>
+							<option [ngValue]="category.category" *ngFor="let category of categories">
+								{{category.category.name}}
+							</option>
+						</select>
+					</div>
+
+					<div>
+						<label>{{("Product")}}</label>
+						<select class="form-control" [(ngModel)]="product" name="selectProduct"
+							(change)="getValueVariant(product)" required>
+							<option [ngValue]="product.product " *ngFor="let product of arrayProduct">
+								{{product.product.name}}
+							</option>
+						</select>
+					</div>
+
+					<div>
+						<label for="Order_ProductID">{{("Variant")}}</label>
+						<select class="form-control" [(ngModel)]="variant" name="selectVariant"
+							(change)="getValueOrder(variant)" required>
+							<option [ngValue]="variant.variant" *ngFor="let variant of arrayVariant">
+								{{variant.variant.name}}
+							</option>
+						</select>
+					</div>
+
+
+
+					<div class="form-group">
+						<label>{{l("Date ")}}</label>
+						<p class="form-control">{{today | date}}</p>
+					</div>
+
+					<div class="form-group">
+						<label for="Order_Status">{{l("Status")}}</label>
+						<div>
+							<input type="checkbox" [(ngModel)]="theCheckbox" data-md-icheck name="checkbox"
+								(change)="toggleVisibility($event)"/>
+							Status : <span *ngIf="marked" >Payment</span><span *ngIf="!marked" >Unpayment</span>
+
+							<span class="checkmark"></span>
+
+						</div>
+
+
+
+					</div>
+
+					<div class="form-group">
+						<label for="Order_Amount">{{l("Amount")}}</label>
+						<input type="number" id="Order_Amount" class="form-control" [(ngModel)]="order.amount"
+							(change)="getValueAmount()" name="Amount" />
+					</div>
+
+					<div class="form-group">
+						<label for="Order_TotalVAT">{{l("TotalVAT")}}</label>
+						<p>{{this.order.totalVAT | currency:"VND" }}</p>
+					</div>
+
+					<!-- <div class="form-group">
+						<label for="Order_User">{{l("User")}}</label>
+						<input type="text" id="Order_User" class="form-control" [(ngModel)]="order.user" name="User" />
+					</div> -->
+
+
+				</div>
+				<div class="modal-footer">
+					<button [disabled]="saving" type="button" class="btn btn-default"
+						(click)="close()">{{l("Cancel")}}</button>
+					<button type="submit" class="btn btn-primary blue" [disabled]="!orderForm.form.valid"
+						[buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i>
+						<span>{{l("Save")}}</span></button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+</div>

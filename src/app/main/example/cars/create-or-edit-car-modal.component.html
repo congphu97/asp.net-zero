@@ -1,0 +1,46 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #carForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="car.id">{{l("EditCar")}}</span>
+                        <span *ngIf="!car.id">{{l("CreateNewCar")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+                        <select [ngModel]="car" name="select" class="form-control">
+                            <option [ngValue]= "car.car" *ngFor= "let car of cars">{{car.car.name}}</option>
+                        </select>
+       
+
+								<div class="form-group">
+									<label for="Car_name">{{l("name")}}</label>
+									<input type="text" id="Car_name" class="form-control" [(ngModel)]="car.name" name="name"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="Car_detail">{{l("detail")}}</label>
+									<input type="text" id="Car_detail" class="form-control" [(ngModel)]="car.detail" name="detail"    />
+								</div>
+					
+								<div class="form-group">
+									<label for="Car_price">{{l("price")}}</label>
+									<input type="text" id="Car_price" class="form-control" [(ngModel)]="car.price" name="price"    />
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!carForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

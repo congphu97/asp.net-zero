@@ -1,0 +1,542 @@
+<div class="kt-login__form" [@routerTransition] id="TenantDashboard">
+
+    <div class="kt-subheader kt-grid__item">
+        <div class="kt-subheader__main">
+            <h3 class="kt-subheader__title">
+                <span>{{"Dashboard" | localize}}</span>
+            </h3>
+            <span class="kt-subheader__separator kt-subheader__separator--v"></span>
+            <span class="kt-subheader__desc">
+                {{"DashboardHeaderInfo" | localize}}
+            </span>
+        </div>
+    </div>
+
+    <div class="kt-content kt-grid__item kt-grid__item--fluid">
+
+        <div class="kt-portlet kt-portlet--height-fluid">
+            <div class="kt-portlet__body kt-portlet__body--fit">
+                <div class="row row-no-padding row-col-separator-xl">
+                    <div class="col-md-12 col-lg-6 col-xl-3">
+                        <div class="kt-widget24">
+                            <div class="kt-widget24__details">
+                                <div class="kt-widget24__info">
+                                    <h4 class="kt-widget24__title">
+                                        Total Profit
+                                    </h4>
+                                    <span class="kt-widget24__desc">
+                                        All Customs Value
+                                    </span>
+                                </div>
+                                <span class="kt-widget24__stats kt--font-brand">
+                                    $<span counto [step]="30"
+                                           [duration]="1"
+                                           [countFrom]="0"
+                                           [countTo]="dashboardHeaderStats.totalProfit"
+                                           (countoChange)="dashboardHeaderStats.totalProfitCounter = $event">
+                                        {{dashboardHeaderStats.totalProfitCounter.toFixed(0)}}
+                                    </span>
+                                </span>
+                            </div>
+                            <div class="progress progress--sm">
+                                <div class="progress-bar kt-bg-brand" role="progressbar" style="width: 76%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div class="kt-widget24__action">
+                                <span class="kt-widget24__change">
+                                    Change
+                                </span>
+                                <span class="kt-widget24__number">
+                                    <span class="counterup">{{dashboardHeaderStats.totalProfitChange}}</span>%
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-12 col-lg-6 col-xl-3">
+                        <div class="kt-widget24">
+                            <div class="kt-widget24__details">
+                                <div class="kt-widget24__info">
+                                    <h4 class="kt-widget24__title">
+                                        New Feedbacks
+                                    </h4>
+                                    <span class="kt-widget24__desc">
+                                        Customer Review
+                                    </span>
+                                </div>
+                                <span class="kt-widget24__stats kt--font-info"
+                                      counto
+                                      [step]="30"
+                                      [duration]="1"
+                                      [countFrom]="0"
+                                      [countTo]="dashboardHeaderStats.newFeedbacks"
+                                      (countoChange)="dashboardHeaderStats.newFeedbacksCounter = $event">
+                                    {{dashboardHeaderStats.newFeedbacksCounter.toFixed(0)}}
+                                </span>
+                            </div>
+                            <div class="progress progress--sm">
+                                <div class="progress-bar kt-bg-info" role="progressbar" style="width: 85%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div class="kt-widget24__action">
+                                <span class="kt-widget24__change">
+                                    Change
+                                </span>
+                                <span class="kt-widget24__number">
+                                    <span class="counterup">{{dashboardHeaderStats.newFeedbacksChange}}</span>%
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-6 col-xl-3">
+                        <div class="kt-widget24">
+                            <div class="kt-widget24__details">
+                                <div class="kt-widget24__info">
+                                    <h4 class="kt-widget24__title">
+                                        New Orders
+                                    </h4>
+                                    <span class="kt-widget24__desc">
+                                        Fresh Order Amount
+                                    </span>
+                                </div>
+                                <span class="kt-widget24__stats kt--font-info"
+                                      counto
+                                      [step]="30"
+                                      [duration]="1"
+                                      [countFrom]="0"
+                                      [countTo]="dashboardHeaderStats.newOrders"
+                                      (countoChange)="dashboardHeaderStats.newOrdersCounter = $event">
+                                    {{dashboardHeaderStats.newOrdersCounter.toFixed(0)}}
+                                </span>
+                            </div>
+                            <div class="progress progress--sm">
+                                <div class="progress-bar kt-bg-danger" role="progressbar" style="width: 45%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div class="kt-widget24__action">
+                                <span class="kt-widget24__change">
+                                    Change
+                                </span>
+                                <span class="kt-widget24__number">
+                                    <span class="counterup">{{dashboardHeaderStats.newOrdersChange}}</span>%
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-6 col-xl-3">
+                        <div class="kt-widget24">
+                            <div class="kt-widget24__details">
+                                <div class="kt-widget24__info">
+                                    <h4 class="kt-widget24__title">
+                                        New Users
+                                    </h4>
+                                    <span class="kt-widget24__desc">
+                                        Joined New User
+                                    </span>
+                                </div>
+                                <span class="kt-widget24__stats kt--font-info"
+                                      counto
+                                      [step]="30"
+                                      [duration]="1"
+                                      [countFrom]="0"
+                                      [countTo]="dashboardHeaderStats.newUsers"
+                                      (countoChange)="dashboardHeaderStats.newUsersCounter = $event">
+                                    {{dashboardHeaderStats.newUsersCounter.toFixed(0)}}
+                                </span>
+                            </div>
+                            <div class="progress progress--sm">
+                                <div class="progress-bar kt-bg-success" role="progressbar" style="width: 57%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <span class="kt-widget24__change">
+                                Change
+                            </span>
+                            <span class="kt-widget24__number">
+                                <span class="counterup">{{dashboardHeaderStats.newUsersChange}}</span>%
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <div class="kt-portlet kt-portlet--height-fluid sales-summary-chart">
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-portlet__head-title">
+                                Sales Summary
+                            </h3>
+                        </div>
+                        <div class="kt-portlet__head-toolbar">
+                            <div class="btn-group" data-toggle="buttons">
+                                <label class="btn btn-secondary active" [ngClass]="{'active': salesSummaryChart.selectedDatePeriod ==  appSalesSummaryDateInterval.Daily}" (click)="salesSummaryChart.reload(appSalesSummaryDateInterval.Daily)">
+                                    <input type="radio"
+                                           name="SalesSummaryDateInterval"
+                                           [value]="appSalesSummaryDateInterval.Daily">
+                                    {{"Daily" | localize}}
+                                </label>
+                                <label class="btn btn-secondary" [ngClass]="{'active': salesSummaryChart.selectedDatePeriod ==  appSalesSummaryDateInterval.Weekly}" (click)="salesSummaryChart.reload(appSalesSummaryDateInterval.Weekly)">
+                                    <input type="radio"
+                                           name="SalesSummaryDateInterval"
+                                           [value]="appSalesSummaryDateInterval.Weekly">
+                                    {{"Weekly" | localize}}
+                                </label>
+                                <label class="btn btn-secondary" [ngClass]="{'active': salesSummaryChart.selectedDatePeriod ==  appSalesSummaryDateInterval.Monthly}" (click)="salesSummaryChart.reload(appSalesSummaryDateInterval.Monthly)">
+                                    <input type="radio"
+                                           name="SalesSummaryDateInterval"
+                                           [value]="appSalesSummaryDateInterval.Monthly">
+                                    {{"Monthly" | localize}}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="kt-portlet__body" [busyIf]="salesSummaryChart.loading">
+                        <div class="row list-separated text-center">
+                            <div class="col-md-3 col-sm-3 col-xs-6">
+                                <h6>
+                                    Total Sales
+                                </h6>
+                                <div>
+                                    <span counto
+                                          class="kt-font-danger kt-font-bolder"
+                                          [step]="30"
+                                          [duration]="1"
+                                          [countFrom]="0"
+                                          [countTo]="salesSummaryChart.totalSales"
+                                          (countoChange)="salesSummaryChart.totalSalesCounter = $event">
+                                        {{salesSummaryChart.totalSalesCounter.toFixed(0)}}
+                                    </span>
+                                    <span class="kt-font-danger kt-font-bolder">$</span>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-3 col-xs-6">
+                                <h6>
+                                    Revenue
+                                </h6>
+                                <div class="uppercase font-hg font-green-haze">
+                                    <span counto
+                                          class="kt-font-warning kt-font-bolder"
+                                          [step]="30"
+                                          [duration]="1"
+                                          [countFrom]="0"
+                                          [countTo]="salesSummaryChart.revenue"
+                                          (countoChange)="salesSummaryChart.revenuesCounter = $event">
+                                        {{salesSummaryChart.revenuesCounter.toFixed(0)}}
+                                    </span>
+                                    <span class="kt-font-warning kt-font-bolder">$</span>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-3 col-xs-6">
+                                <h6>
+                                    Expenses
+                                </h6>
+                                <div class="uppercase font-hg font-purple">
+                                    <span counto
+                                          class="kt--font-info kt-font-bolder"
+                                          [step]="30"
+                                          [duration]="1"
+                                          [countFrom]="0"
+                                          [countTo]="salesSummaryChart.expenses"
+                                          (countoChange)="salesSummaryChart.expensesCounter = $event">
+                                        {{salesSummaryChart.expensesCounter.toFixed(0)}}
+                                    </span>
+                                    <span class="kt-font-success kt-font-bolder">$</span>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-3 col-xs-6">
+                                <h6>
+                                    Growth
+                                </h6>
+                                <div class="uppercase font-hg font-blue-sharp">
+                                    <span counto
+                                          class="kt--font-info kt-font-bolder"
+                                          [step]="30"
+                                          [duration]="1"
+                                          [countFrom]="0"
+                                          [countTo]="salesSummaryChart.growth"
+                                          (countoChange)="salesSummaryChart.growthCounter = $event">
+                                        {{salesSummaryChart.growthCounter.toFixed(0)}}
+                                    </span>
+                                    <span class="kt--font-info kt-font-bolder">$</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="height: 260px; min-height: 260px;">
+                            <ngx-charts-area-chart-stacked [results]="salesSummaryChart.data"
+                                                           [showXAxisLabel]="true"
+                                                           showYAxisLabel="true"
+                                                           [xAxis]="true"
+                                                           [yAxis]="true"
+                                                           [showGridLines]="false"
+                                                           [tooltipDisabled]="false">
+                            </ngx-charts-area-chart-stacked>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <div class="kt-portlet m-portlet--full-height">
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+
+                            <h3 class="kt-portlet__head-title">
+                                Regional Stats
+                            </h3>
+
+                        </div>
+                    </div>
+                    <div class="kt-portlet__body">
+                        <div id="region_statistics_content">
+                            <div class="table-responsive">
+                                <!--begin::Table-->
+                                <table class="table">
+                                    <!--begin::Thead-->
+                                    <thead>
+                                        <tr>
+                                            <td class="m-widget11__label">#</td>
+                                            <td class="m-widget11__app">Country</td>
+                                            <td class="m-widget11__sales">Sales</td>
+                                            <td class="m-widget11__change">Change</td>
+                                            <td class="m-widget11__price">Avg Price</td>
+                                            <td class="m-widget11__total">Total</td>
+                                        </tr>
+                                    </thead>
+                                    <!--end::Thead-->
+                                    <!--begin::Tbody-->
+                                    <tbody>
+                                        <tr *ngFor="let stat of regionalStatsTable.stats; let index = index">
+                                            <td>
+                                                <label class="kt-checkbox">
+                                                    <input class="form-control" type="checkbox" />
+                                                    <span></span>
+                                                </label>
+                                            </td>
+                                            <td>{{stat.countryName}}</td>
+                                            <td>{{stat.sales | currency}}</td>
+                                            <td>
+                                                <div class="m-widget11__chart" style="height:50px; width: 100px">
+                                                    <ngx-charts-line-chart [results]="stat.changeData" [showGridLines]="false" [animations]="false" [tooltipDisabled]="true" [customColors]="regionalStatsTable.customColors" [curve]="regionalStatsTable.curve"></ngx-charts-line-chart>
+                                                </div>
+                                            </td>
+                                            <td>{{stat.averagePrice | currency}}</td>
+                                            <td>{{stat.totalPrice | currency}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <div class="kt-portlet kt-portlet--height-fluid ">
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-portlet__head-title">
+                                General Stats
+                            </h3>
+                        </div>
+                        <div class="kt-portlet__head-toolbar">
+                            <a href="javascript:;" class="btn btn-primary" (click)="generalStatsPieChart.reload()">
+                                <i class="fa fa-redo"></i> Refresh
+                            </a>
+                        </div>
+                    </div>
+                    <div class="kt-portlet__body">
+                        <div class="row">
+                            <ngx-charts-pie-grid [results]="generalStatsPieChart.data">
+                            </ngx-charts-pie-grid>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <div class="kt-portlet kt-portlet--height-fluid ">
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-portlet__head-title">
+                                Daily Sales
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="kt-portlet__body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <ngx-charts-bar-vertical [results]="dailySalesLineChart.chartData" [scheme]="dailySalesLineChart.scheme">
+                                    <ng-template #tooltipTemplate let-model="model">
+                                        <span>Day {{model.name}}</span>
+                                        <br />
+                                        <span>{{model.value}}</span>
+                                    </ng-template>
+                                </ngx-charts-bar-vertical>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-xs-12 col-sm-12">
+                <div class="kt-portlet kt-portlet--height-fluid">
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-portlet__head-title">
+                                <span class="caption-subject font-blue bold uppercase"> Profit Share</span>
+                                <small>
+                                    Profit Share between customers
+                                </small>
+                            </h3>
+                        </div>
+                        <div class="kt-portlet__head-toolbar" dropdown>
+                            <a href="javascript:void(0)" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" dropdownToggle>
+                                Actions
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right" *dropdownMenu>
+                                <ul class="kt-nav">
+                                    <li class="kt-nav__item">
+                                        <a href="javascript:void(0)" class="kt-nav__link">
+                                            <i class="kt-nav__link-icon flaticon-share"></i>
+                                            <span class="kt-nav__link-text">
+                                                Action 1
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li class="kt-nav__item">
+                                        <a href="javascript:void(0)" class="kt-nav__link">
+                                            <i class="kt-nav__link-icon flaticon-chat-1"></i>
+                                            <span class="kt-nav__link-text">
+                                                Action 2
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li class="kt-nav__item">
+                                        <a href="javascript:void(0)" class="kt-nav__link">
+                                            <i class="kt-nav__link-icon flaticon-info"></i>
+                                            <span class="kt-nav__link-text">
+                                                Action 3
+                                            </span>
+                                        </a>
+                                    </li>
+                                    <li class="kt-nav__item">
+                                        <a href="javascript:void(0)" class="kt-nav__link">
+                                            <i class="kt-nav__link-icon flaticon-lifebuoy"></i>
+                                            <span class="kt-nav__link-text">
+                                                Action 4
+                                            </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="kt-portlet__body">
+                        <div class="kt-widget14">
+                            <div class="row kt-widget14__content">
+                                <div class="col-lg-6 col-md-12">
+                                    <ngx-charts-pie-chart [results]="profitSharePieChart.chartData"
+                                                          [doughnut]="true"
+                                                          [legend]="false"
+                                                          [labels]="false"
+                                                          [scheme]="profitSharePieChart.scheme"
+                                                          [animations]="false"
+                                                          [tooltipDisabled]="true">
+                                    </ngx-charts-pie-chart>
+                                </div>
+                                <div class="col-lg-6 col-md-12 kt-widget14__legends" *ngIf="profitSharePieChart.chartData.length">
+                                    <div class="kt-widget14__legend">
+                                        <span class="kt-widget14__bullet kt-bg-success"></span>
+                                        <span class="kt-widget14__stats" ng-if="profitSharePieChart.chartData">
+                                            {{profitSharePieChart.chartData[0].value}}
+                                        </span>
+                                    </div>
+                                    <div class="kt-widget14__legend">
+                                        <span class="kt-widget14__bullet kt-bg-warning"></span>
+                                        <span class="kt-widget14__stats">
+                                            22% Online Courses
+                                        </span>
+                                    </div>
+                                    <div class="kt-widget14__legend">
+                                        <span class="kt-widget14__bullet kt-bg-brand"></span>
+                                        <span class="kt-widget14__stats">
+                                            33% Custom Development
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-xs-12 col-sm-12">
+                <div class="kt-portlet kt-portlet--height-fluid ">
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+
+                            <h3 class="kt-portlet__head-title">
+                                Member Activity
+                            </h3>
+
+                        </div>
+                        <div class="kt-portlet__head-toolbar">
+                            <button (click)="memberActivityTable.reload()" class="btn btn-primary"><i class="fa fa-sync"></i> Refresh</button>
+                        </div>
+                    </div>
+                    <div class="kt-portlet__body">
+                        <div class="table-scrollable table-scrollable-borderless">
+                            <table class="table table-hover table-light">
+                                <thead>
+                                    <tr class="uppercase">
+                                        <th colspan="2">
+                                            MEMBER
+                                        </th>
+                                        <th>
+                                            Earnings
+                                        </th>
+                                        <th>
+                                            CASES
+                                        </th>
+                                        <th>
+                                            CLOSED
+                                        </th>
+                                        <th>
+                                            RATE
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tr *ngFor="let m of memberActivityTable.memberActivities; let index = index">
+                                    <td class="fit">
+                                        <div class="kt-user-card-v2">
+                                            <div class="kt-user-card-v2__pic">
+                                                <img alt="photo" src="/assets/metronic/common/images/users/100_{{index + 1}}.jpg">
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <a href="javascript:;" class="primary-link">{{m.name}}</a>
+                                    </td>
+                                    <td>
+                                        {{m.earnings}}
+                                    </td>
+                                    <td>
+                                        {{m.cases}}
+                                    </td>
+                                    <td>
+                                        {{m.closed}}
+                                    </td>
+                                    <td>
+                                        <span class="bold font-green-haze">{{m.rate}}</span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

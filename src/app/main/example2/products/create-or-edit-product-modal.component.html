@@ -1,0 +1,43 @@
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #productForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                  
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    
+                                <select class="form-control" [(ngModel)] ="product" name = "selectProduct" (change)="test(product)">
+                                    <option [ngValue]="product.product" *ngFor= "let product of products">{{product.product.name}}</option>
+                                </select>
+                            
+                                
+								<div class="form-group">
+									<label for="Product_CategoryID">{{l("CategoryID")}}</label>
+									<input class="na" type="text" (keypress)="validate()" id="Product_CategoryID" class="form-control" [(ngModel)]="this.product.categoryID" name="CategoryID"  required  />
+                                    <span class="error">This field is required</span>
+                                </div>
+					
+								<div class="form-group">
+									<label for="Product_Name">{{l("Name")}}</label>
+									<input type="text" id="Product_Name" class="form-control" [(ngModel)]="this.product.name" name="Name"    />
+								</div>
+					 
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!productForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

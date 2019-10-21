@@ -1,0 +1,41 @@
+<div class="kt-content">
+        <div class="kt-portlet kt-portlet--mobile">
+                <div class="kt-portlet__body">
+                        <div>
+                                <a routerLink="/app/main/example2/variants">Variant</a>
+                                <i style="margin:0 10px"class="fa fa-arrow-right"></i>
+                                <a>Create Modal</a>
+                        </div>
+                        <div>
+            <form  #variantForm="ngForm" novalidate (ngSubmit)="save()" >
+                      
+                                        <div class="form-group">
+                                                <label for="NameFilter">{{("Name")}}</label>
+                                                <input type="text" id="Variant_Name" class="form-control" name="Name" [(ngModel)]="variant.name"/>
+                                        </div>
+
+                                        <div class="form-group">
+                                                <label for="NameFilter">{{("ProductID")}}</label>
+                                                <input type="text" id="Variant_ProductID" class="form-control"[(ngModel)]="variant.productID"
+                                                        name="ProductID" />
+                                        </div>
+
+                                        <div class="form-group">
+                                                <label for="NameFilter">{{("Price")}}</label>
+                                                <input type="number" id="Variant_Price" class="form-control"[(ngModel)]="variant.price"
+                                                        name="Price" />
+                                        </div>
+
+                               
+                                        <button type="submit" class="btn btn-primary blue" [disabled]="!variantForm.form.valid"
+                                        [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i>
+                                        <span>{{l("Save")}}</span></button>
+
+                                </form>
+                        </div>
+                </div>
+
+
+
+        </div>
+</div>

@@ -1,0 +1,61 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #listForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="list.id">{{l("EditList")}}</span>
+                        <span *ngIf="!list.id">{{l("CreateNewList")}}</span>
+             
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+
+                </div>
+                <div class="modal-body">
+
+                    <angular2-multiselect [data]="car" [(ngModel)]="array" name="mulitiSelected"
+                    [settings]="dropdownSettings" (onSelect)="onItemSelect($event)"
+                    (onDeSelect)="OnItemDeSelect($event)" (onSelectAll)="onSelectAll($event)"
+                    (onDeSelectAll)="onDeSelectAll($event)" class="form-control"></angular2-multiselect>
+
+                    
+                    <button type="button" class="btn btn-warning" (click)="saveSelect()">Save Select</button>
+                    <div class="form-group">
+                        <label for="List_CarID">{{l("CarID")}}</label>
+                        <input type="number" id="List_CarID" class="form-control" [(ngModel)]="list.carID"
+                            name="CarID" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="List_name">{{l("name")}}</label>
+                        <input type="text" id="List_name" class="form-control" [(ngModel)]="list.name" name="name" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="List_detail">{{l("detail")}}</label>
+                        <input type="text" id="List_detail" class="form-control" [(ngModel)]="list.detail"
+                            name="detail" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="List_price">{{l("price")}}</label>
+                        <input type="text" id="List_price" class="form-control" [(ngModel)]="list.price" name="price" />
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default"
+                        (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!listForm.form.valid"
+                        [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i>
+                        <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

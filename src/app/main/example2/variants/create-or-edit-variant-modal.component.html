@@ -1,0 +1,58 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #variantForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="variant.id">{{l("EditVariant")}}</span>
+                        <span *ngIf="!variant.id">{{l("CreateNewVariant")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <select class="form-control" [(ngModel)]="category" name="selectCategory" (change)="getValueCategory(category)">
+                        <option [ngValue]="category.category" *ngFor="let category of categories">{{category.category.name}}
+                        </option>
+                    </select>
+
+                    <select class="form-control" [(ngModel)]="product" name="selectProduct" >
+                            <option *ngFor="let product of arrayProduct">{{product.product.name}}
+                            </option>
+                        </select>
+
+                    <div class="form-group">
+                        <label for="Variant_Name">{{l("Name")}}</label>
+                        <input type="text" id="Variant_Name" class="form-control" [(ngModel)]="variant.name"
+                            name="Name" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Variant_ProductID">{{l("ProductID")}}</label>
+                        <input type="text" id="Variant_ProductID" class="form-control" [(ngModel)]="variant.productID"
+                            name="ProductID" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Variant_Price">{{l("Price")}}</label>
+                        <input type="number" id="Variant_Price" class="form-control" [(ngModel)]="variant.price"
+                            name="Price" />
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default"
+                        (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!variantForm.form.valid"
+                        [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i>
+                        <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
