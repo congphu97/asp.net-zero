@@ -1,0 +1,20 @@
+﻿@using MyCompanyName.AbpZeroTemplate
+@using MyCompanyName.AbpZeroTemplate.Web.Areas.AppAreaName.Models.Layout
+@using MyCompanyName.AbpZeroTemplate.Web.Areas.AppAreaName.Views.Shared.Components.AppAreaNameLogo
+@model FooterViewModel
+@{
+    Layout = null;
+}
+<div class="kt-footer  kt-footer--extended  kt-grid__item" id="kt_footer">
+    <div class="kt-footer__bottom">
+        <div class="kt-container">
+            <div class="kt-footer__wrapper">
+                <div class="kt-footer__copyright">
+                    @Model.GetProductNameWithEdition() | v@(AppVersionHelper.Version) [@AppVersionHelper.ReleaseDate.ToString("yyyyMMdd")]
+                </div>
+                <div class="kt-footer__menu">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

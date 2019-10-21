@@ -1,0 +1,100 @@
+﻿@using Abp.Web.Mvc.Alerts
+@using MyCompanyName.AbpZeroTemplate.Localization
+@using MyCompanyName.AbpZeroTemplate.Web.Areas.AppAreaName.Views.Shared.Components.AppAreaNameTheme7Brand
+@using MyCompanyName.AbpZeroTemplate.Web.Areas.AppAreaName.Views.Shared.Components.AppAreaNameLogo
+@using MyCompanyName.AbpZeroTemplate.Web.Areas.AppAreaName.Views.Shared.Components.AppAreaNameMenu
+@using MyCompanyName.AbpZeroTemplate.Web.Areas.AppAreaName.Views.Shared.Components.AppAreaNameSubscriptionBar
+@using MyCompanyName.AbpZeroTemplate.Web.Areas.AppAreaName.Views.Shared.Components.AppAreaNameTheme7Footer
+@using MyCompanyName.AbpZeroTemplate.Web.Areas.AppAreaName.Views.Shared.Components.AppAreaNameTopBar
+
+@inject IAlertManager AlertManager
+@{
+    Layout = "~/Areas/AppAreaName/Views/Layout/_Layout.cshtml";
+    var theme = await GetTheme();
+}
+
+@section Styles{
+    <link rel="stylesheet" href="@(ApplicationPath)metronic/themes/theme7/css/style.bundle@(CultureHelper.IsRtl ? ".rtl":"").css" asp-append-version="true" />
+    <link rel="stylesheet" abp-href="/Common/Styles/Themes/theme7/metronic-customize.css" asp-append-version="true" />
+    <link rel="stylesheet" abp-href="/Common/Styles/Themes/theme7/datatables@(CultureHelper.IsRtl ? "-rtl":"").css" asp-append-version="true" />
+    <link rel="stylesheet" abp-href="/fonts/fonts-montserrat.css" asp-append-version="true" />
+    @await RenderSectionAsync("Styles", false)
+}
+
+@section Scripts{
+    <script abp-src="/metronic/themes/theme7/js/layout.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", false)
+}
+
+<div id="kt_header_mobile" class="kt-header-mobile">
+    <div class="kt-header-mobile__logo">
+        <a href="@Url.Action("Index", "Home", new {area = string.Empty})">
+            @await Component.InvokeAsync(typeof(AppAreaNameLogoViewComponent))
+        </a>
+    </div>
+    <div class="kt-header-mobile__toolbar">
+        <button class="kt-header-mobile__toolbar-toggler kt-header-mobile__toolbar-toggler--left" id="kt_aside_mobile_toggler">
+            <span></span>
+        </button>
+        <button class="kt-header-mobile__toolbar-topbar-toggler" id="kt_header_mobile_topbar_toggler">
+            <i class="flaticon-more"></i>
+        </button>
+    </div>
+</div>
+
+<div class="kt-grid kt-grid--hor kt-grid--root">
+    <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver kt-page">
+        <!-- BEGIN: Left Aside -->
+        <button class="kt-aside-close" id="kt_aside_close_btn">
+            <i class="la la-close" aria-label="@L("Close")"></i>
+        </button>
+        <div id="kt_aside" class="kt-aside kt-aside--fixed kt-grid__item kt-grid kt-grid--desktop kt-grid--hor-desktop">
+            <!-- BEGIN: Brand -->
+            @await Component.InvokeAsync(typeof(AppAreaNameTheme7BrandViewComponent))
+            <!-- END: Brand -->
+            <!-- BEGIN: Aside Menu -->
+            <div id="kt_aside_menu_wrapper" class="kt-aside-menu-wrapper kt-grid__item kt-grid__item--fluid">
+                @await Component.InvokeAsync(typeof(AppAreaNameMenuViewComponent), new { currentPageName = ViewBag.CurrentPageName, isLeftMenuUsed = true })
+            </div>
+            <!-- END: Aside Menu -->
+        </div>
+        <!-- END: Left Aside -->
+        <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-wrapper" id="kt_wrapper">
+            <!-- BEGIN: Header -->
+            <div class="kt-header kt-grid kt-grid--ver kt-header--@(theme.BaseSettings.Header.DesktopFixedHeader ? "fixed":"static")" id="kt_header">
+                <div class="kt-header-menu-wrapper kt-grid__item kt-grid__item--fluid" id="kt_header_menu_wrapper">
+                </div>
+                @await Component.InvokeAsync(typeof(AppAreaNameTopBarViewComponent))
+            </div>
+            <!-- END: Header -->
+            <div class="d-lg-none p-3 mobile-subscription-warning">
+                @await Component.InvokeAsync(typeof(AppAreaNameSubscriptionBarViewComponent))
+            </div>
+            @if (AlertManager.Alerts.Any())
+            {
+                <div id="AbpPageAlerts">
+                    @foreach (var alertMessage in AlertManager.Alerts)
+                    {
+                        <div class="alert alert-@alertMessage.Type.ToString().ToLower()" role="alert">
+                            <div class="alert-text">
+                                <h4 class="alert-heading">
+                                    @alertMessage.Title
+                                    @if (alertMessage.Dismissible)
+                                                {
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                }
+                                </h4>
+                                <p>@alertMessage.Text</p>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+
+            <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor">
+                @RenderBody()
+            </div>
+            @await Component.InvokeAsync(typeof(AppAreaNameTheme7FooterViewComponent))
+        </div>
+    </div>
+</div>

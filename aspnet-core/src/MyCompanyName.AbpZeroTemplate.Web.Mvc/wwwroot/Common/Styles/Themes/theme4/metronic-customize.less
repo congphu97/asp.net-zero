@@ -1,0 +1,75 @@
+﻿@import "../mobile-header.less";
+@import "../cookie-consent.less";
+
+body {
+    background-image: url(/metronic/themes/theme4/images/bg/header.jpg);
+
+    div.kt-header__brand-logo {
+        a.dark {
+            display: block;
+        }
+
+        a.light {
+            display: none;
+        }
+    }
+
+    .kt-header__topbar {
+        .subscription-warning {
+            padding-top: 32px;
+
+            a {
+                span {
+                    color: #fff;
+                    white-space: nowrap;
+                }
+            }
+        }
+    }
+
+    &.kt-header--minimize {
+        div.kt-header__brand-logo {
+            a.light {
+                display: block;
+            }
+
+            a.dark {
+                display: none;
+            }
+        }
+
+        .kt-menu__hor-arrow {
+            color: #b5b2c8 !important;
+        }
+
+        .kt-header__topbar {
+            .subscription-warning {
+                padding-top: 22px;
+
+                span {
+                    color: #000;
+                }
+            }
+        }
+    }
+}
+
+.kt-subheader__main {
+    span.kt-subheader__separator {
+        display: none !important;
+    }
+
+    span.kt-subheader__desc {
+        font-size: 1rem !important;
+    }
+}
+
+#kt_header_menu_wrapper {
+    height: 100% !important;
+}
+
+.kt-header__topbar {
+    .kt-header__topbar-item.kt-header__topbar-item--langs {
+        margin-right: 0;
+    }
+}

@@ -1,0 +1,60 @@
+﻿@using Abp.MultiTenancy
+@using MyCompanyName.AbpZeroTemplate.Authorization
+@using MyCompanyName.AbpZeroTemplate.Web.Areas.AppAreaName.Startup
+@model MyCompanyName.AbpZeroTemplate.Web.Areas.AppAreaName.Models.Languages.LanguagesIndexViewModel
+@{
+    ViewBag.CurrentPageName = AppAreaNamePageNames.Common.Languages;
+}
+
+@section Scripts
+{
+    <script abp-src="/view-resources/Areas/AppAreaName/Views/_Bundles/language-list.js" asp-append-version="true"></script>
+}
+
+<div class="kt-subheader kt-grid__item">
+    <div class="kt-subheader__main">
+        <h3 class="kt-subheader__title">
+            <span>@L("Languages")</span>
+        </h3>
+        <span class="kt-subheader__separator kt-subheader__separator--v"></span>
+        <span class="kt-subheader__desc">
+            @L("LanguagesHeaderInfo")
+        </span>
+    </div>
+    <div class="kt-subheader__toolbar">
+        <div class="kt-subheader__wrapper">
+            @if (IsGranted(AppPermissions.Pages_Administration_Languages_Create) && AbpSession.MultiTenancySide == MultiTenancySides.Host)
+            {
+                <button id="CreateNewLanguageButton" class="btn btn-primary"><i class="fa fa-plus"></i> @L("CreateNewLanguage")</button>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="kt-content">
+    <div class="kt-portlet kt-portlet--mobile">
+        <div class="kt-portlet__body">
+            <div class="align-items-center">
+                <table id="LanguagesTable" class="display table table-striped table-bordered table-hover dt-responsive nowrap">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>@L("Actions")</th>
+                        <th>@L("Name")</th>
+                        <th>@L("Code")</th>
+                        <th>@L("Default")</th>
+                        <th>@L("IsEnabled")</th>
+                        <th>@L("CreationTime")</th>
+                    </tr>
+                    </thead>
+                </table>
+                @if (Model.IsTenantView)
+                {
+                    <p class="margin-top-20">
+                        @("* " + L("CanNotEditOrDeleteDefaultLanguages"))
+                    </p>
+                }
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,31 @@
+﻿@using MyCompanyName.AbpZeroTemplate.Web.Areas.AppAreaName.Models.Layout
+@using MyCompanyName.AbpZeroTemplate.Web.Areas.AppAreaName.Views.Shared.Components.AppAreaNameMenu
+@model MenuViewModel
+@{
+    Layout = null;
+    var theme = await GetTheme();
+}
+
+<button class="kt-header-menu-wrapper-close" id="kt_header_menu_mobile_close_btn">
+    <i class="la la-close"></i>
+</button>
+<div class="kt-header-menu-wrapper" id="kt_header_menu_wrapper">
+    <div id="kt_header_menu" class="kt-header-menu kt-header-menu-mobile ">
+        <ul class="kt-menu__nav"
+            role="menubar"
+            aria-label="@L("TopMenu")">
+            @for (var i = 0; i < Model.Menu.Items.Count; i++)
+            {
+                var menuItem = Model.Menu.Items[i];
+                @await Html.PartialAsync("Components/AppAreaNameMenu/_TopUserMenuItem", new UserMenuItemViewModel {
+                    MenuItem = menuItem,
+                    MenuItemIndex = i,
+                    ItemDepth = 0,
+                    RootLevel = true,
+                    CurrentPageName = Model.CurrentPageName,
+                    IsTabMenuUsed = theme.IsTabMenuUsed
+                })
+            }
+        </ul>
+    </div>
+</div>

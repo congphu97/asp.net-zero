@@ -1,0 +1,49 @@
+﻿@model MyCompanyName.AbpZeroTemplate.Configuration.Dto.ThemeSettingsDto
+
+<ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item">
+        <a href="#Theme9Layout" class="nav-link active" data-toggle="tab" role="tab">
+            @L("UiCustomization_Layout")
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="#Theme9Header" class="nav-link" data-toggle="tab" role="tab">
+            @L("UiCustomization_Header")
+        </a>
+    </li>
+</ul>
+<div class="tab-content">
+    <div id="Theme9Layout" class="tab-pane active">
+        <input type="hidden" name="Theme" value="theme9" />
+        <form class="LayoutSettingsForm">
+            <h5 class="margin-bottom-20">@L("UiCustomization_LayoutType")</h5>
+            <div class="form-group">
+                @Html.DropDownList("LayoutType", new SelectList(new List<SelectListItem>
+                {
+                    new SelectListItem {Text = L("UiCustomization_Fluid"), Value = "fluid"},
+                    new SelectListItem {Text = L("UiCustomization_Fixed"), Value = "fixed"}
+                }, "Value", "Text", Model.Layout.LayoutType), new {@class = "form-control w-25", id = "LayoutType"})
+            </div>
+        </form>
+    </div>
+    <div id="Theme9Header" class="tab-pane">
+        <form class="HeaderSettingsForm">
+            <h5 class="margin-bottom-20">@L("UiCustomization_Desktop")</h5>
+            <div class="form-group">
+                <label class="kt-checkbox col-lg-12">
+                    <input type="checkbox" name="DesktopFixedHeader" value="true" @(Model.Header.DesktopFixedHeader ? "checked=\"checked\"" : "")>
+                    @L("UiCustomization_DesktopFixedHeader")
+                    <span></span>
+                </label>
+            </div>
+            <h5 class="margin-bottom-20">@L("UiCustomization_Mobile")</h5>
+            <div class="form-group">
+                <label class="kt-checkbox col-lg-12">
+                    <input type="checkbox" name="MobileFixedHeader" value="true" @(Model.Header.MobileFixedHeader ? "checked=\"checked\"" : "")>
+                    @L("UiCustomization_MobileFixedHeader")
+                    <span></span>
+                </label>
+            </div>
+        </form>
+    </div>
+</div>

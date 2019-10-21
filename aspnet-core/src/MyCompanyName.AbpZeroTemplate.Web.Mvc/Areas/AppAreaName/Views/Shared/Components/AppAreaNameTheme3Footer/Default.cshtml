@@ -1,0 +1,14 @@
+﻿@using MyCompanyName.AbpZeroTemplate
+@using MyCompanyName.AbpZeroTemplate.Web.Areas.AppAreaName.Models.Layout
+@model FooterViewModel
+@{
+    Layout = null;
+}
+<div class="kt-footer kt-grid__item kt-grid kt-grid--desktop kt-grid--ver-desktop" id="kt_footer">
+    <div class="kt-footer__copyright">
+        @Model.GetProductNameWithEdition() | v@(AppVersionHelper.Version) [@AppVersionHelper.ReleaseDate.ToString("yyyyMMdd")]
+    </div>
+    <div class="kt-footer__menu">
+    </div>
+</div>
+

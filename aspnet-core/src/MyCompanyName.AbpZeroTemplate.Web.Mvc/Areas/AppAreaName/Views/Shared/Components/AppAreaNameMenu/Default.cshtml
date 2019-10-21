@@ -1,0 +1,30 @@
+﻿@using MyCompanyName.AbpZeroTemplate.Web.Areas.AppAreaName.Models.Layout
+@using MyCompanyName.AbpZeroTemplate.Web.Areas.AppAreaName.Views.Shared.Components.AppAreaNameMenu
+
+@model MenuViewModel
+@{
+    var theme = await GetTheme();
+}
+<nav id="kt_aside_menu"
+     aria-label="@L("LeftMenu")"
+     class="kt-aside-menu @(theme.BaseSettings.Menu.SubmenuToggle == "false" ? "kt-scroll ":"") @(theme.BaseSettings.Menu.SubmenuToggle == "true" ? " kt-aside-menu--dropdown" : "")"
+     data-ktmenu-vertical="1"
+     @(theme.BaseSettings.Menu.SubmenuToggle == "false" ? "data-ktmenu-scroll=1" : "data-ktmenu-scroll=0")
+     @(theme.BaseSettings.Menu.SubmenuToggle == "true" ? "data-ktmenu-dropdown=1" : "data-ktmenu-dropdown=0")
+     data-ktmenu-dropdown-timeout="500"
+     data-ktmenu-dropdown="@(theme.BaseSettings.Menu.FixedAside && theme.BaseSettings.Menu.SubmenuToggle == "Dropdown" ? "1":"0")">
+    <ul class="kt-menu__nav"
+        aria-label="@L("LeftMenu")">
+        @for (var i = 0; i < Model.Menu.Items.Count; i++)
+        {
+            var menuItem = Model.Menu.Items[i];
+            @await Html.PartialAsync("Components/AppAreaNameMenu/_UserMenuItem", new UserMenuItemViewModel
+            {
+                MenuItem = menuItem,
+                MenuItemIndex = i,
+                RootLevel = true,
+                CurrentPageName = Model.CurrentPageName
+            })
+        }
+    </ul>
+</nav>

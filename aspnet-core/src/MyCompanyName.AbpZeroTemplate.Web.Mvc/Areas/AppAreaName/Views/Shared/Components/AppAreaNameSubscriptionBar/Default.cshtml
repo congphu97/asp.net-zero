@@ -1,0 +1,32 @@
+﻿@using Abp.MultiTenancy
+@using MyCompanyName.AbpZeroTemplate.Authorization
+@using MyCompanyName.AbpZeroTemplate.Editions
+@{
+    Layout = null;
+}
+@if (AbpSession.MultiTenancySide != MultiTenancySides.Host)
+{
+    if (IsGranted(AppPermissions.Pages_Administration_Tenant_SubscriptionManagement) &&
+        (Model.LoginInformations.Tenant.IsInTrialPeriod || Model.LoginInformations.Tenant.SubscriptionIsExpiringSoon(Model.SubscriptionExpireNootifyDayCount)))
+    {
+            if (Model.LoginInformations.Tenant.IsInTrialPeriod && !Model.LoginInformations.Tenant.SubscriptionIsExpiringSoon(Model.SubscriptionExpireNootifyDayCount))
+            {
+                <a href="@Url.Action("Buy", "Payment", new { area = "", editionId = Model.LoginInformations.Tenant.Edition.Id, editionPaymentType = EditionPaymentType.BuyNow })" class="kt-nav__link">
+                    <span class="kt-nav__link-text glowing">
+                        <i class="fa fa-exclamation-triangle"></i> @L("TrialSubscriptionNotification", "<strong>" + Model.LoginInformations.Tenant.Edition.DisplayName + "</strong>", L("ClickHere"))
+                    </span>
+                </a>
+            }
+            if (Model.LoginInformations.Tenant.SubscriptionIsExpiringSoon(Model.SubscriptionExpireNootifyDayCount))
+            {
+                <a href="@Url.Action("Index", "SubscriptionManagement", new {area = "AppAreaName"})" class="kt-nav__link">
+                    <span class="kt-nav__link-text glowing">
+                        <i class="fa fa-exclamation-triangle"></i> @L(Model.LoginInformations.Tenant.IsInTrialPeriod ? 
+                                                                       "TrialExpireNotification" : 
+                                                                       "SubscriptionExpireNotification", 
+                                                                       Model.LoginInformations.Tenant.GetSubscriptionExpiringDayCount())
+                    </span>
+                </a>
+            }
+    }
+}

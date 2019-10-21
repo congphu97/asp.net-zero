@@ -1,0 +1,41 @@
+﻿@using MyCompanyName.AbpZeroTemplate.Localization
+@model MyCompanyName.AbpZeroTemplate.Web.Models.Account.VerifySecurityCodeViewModel
+@section Scripts
+{
+    <script abp-src="/view-resources/Views/Account/VerifySecurityCode.js" asp-append-version="true"></script>
+}
+@section Styles{
+    <link href="/metronic/common/css/login-1@(CultureHelper.IsRtl ? ".rtl":"").css" rel="stylesheet" />
+}
+<div class="kt-login__form">
+    <div class="kt-login__title">
+        <h3 class="m-0">@L("VerifySecurityCode")</h3>
+    </div>
+    <form class="kt-form verify-security-code-form" asp-action="VerifySecurityCode" method="post">
+        <p>@L("VerifySecurityCode_Information")</p>
+
+        @Html.Hidden("returnUrl", Model.ReturnUrl)
+        @Html.Hidden("provider", Model.Provider)
+        @Html.Hidden("rememberMe", Model.RememberMe)
+
+        <div class="form-group">
+            @Html.TextBoxFor(m => m.Code, new { @class = "form-control", required = "required", placeholder = Model.Code })
+        </div>
+
+        @if (Model.IsRememberBrowserEnabled)
+        {
+            <div class="form-group mt-4">
+                <label class="kt-checkbox">
+                    @Html.CheckBoxFor(m => m.RememberBrowser, new { @class = "form-control" }) @L("RememberThisBrowser")
+                    <span></span>
+                </label>
+            </div>
+        }
+
+        <div class="kt-login__actions">
+            <span>&nbsp;</span>
+            <input type="submit" class="btn btn-primary btn-elevate kt-login__btn-primary" value="@L("Submit")" />
+        </div>
+
+    </form>
+</div>

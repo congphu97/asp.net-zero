@@ -1,0 +1,92 @@
+﻿@using MyCompanyName.AbpZeroTemplate
+@using MyCompanyName.AbpZeroTemplate.Localization
+@using MyCompanyName.AbpZeroTemplate.Web.Areas.AppAreaName.Models.Accounting
+@model InvoiceViewModel
+
+@section styles{
+    <link rel="stylesheet" abp-href="/metronic/common/css/invoice-1@(CultureHelper.IsRtl ? ".rtl":"").css" asp-append-version="true" />
+}
+
+<div class="kt-content">
+    <div class="kt-portlet">
+        <div class="kt-portlet__body">
+
+            <div class="kt-invoice-1">
+                <div class="kt-invoice__wrapper">
+                    <div class="kt-invoice__head" style="background-image: url(@(ApplicationPath)Common/Images/bg-6.jpg);">
+                        <div class="kt-invoice__container kt-invoice__container--centered">
+                            <div class="kt-invoice__logo">
+                                <a href="#">
+                                    <h1>@L("Invoice")</h1>
+                                </a>
+                                <a href="#">
+                                    <img src="@(ApplicationPath)Common/Images/logo.svg">
+                                </a>
+                            </div>
+                            <span class="kt-invoice__desc">
+                                @Model.Invoice.HostLegalName
+                                @foreach (var line in Model.Invoice.HostAddress)
+                                {
+                                    <br />@line
+                                }
+                            </span>
+                            <div class="kt-invoice__items">
+                                <div class="kt-invoice__item">
+                                    <span class="kt-invoice__subtitle">@L("Date")</span>
+                                    <span class="kt-invoice__text">@Model.Invoice.InvoiceDate.ToString("yyyy-MM-dd")</span>
+                                </div>
+                                <div class="kt-invoice__item">
+                                    <span class="kt-invoice__subtitle">@L("Invoice")</span>
+                                    <span class="kt-invoice__text">#@Model.Invoice.InvoiceNo</span>
+                                </div>
+                                <div class="kt-invoice__item">
+                                    <span class="kt-invoice__subtitle">@L("InvoiceTo")</span>
+                                    <span class="kt-invoice__text">
+                                        @Model.Invoice.TenantLegalName
+                                        @foreach (var line in Model.Invoice.TenantAddress)
+                                        {
+                                            <br />@line
+                                        }
+                                        <br />@L("Tax/VatNo"): @Model.Invoice.TenantTaxNo
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="kt-invoice__body kt-invoice__body--centered">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 50px;">#</th>
+                                        <th>@L("Edition")</th>
+                                        <th style="width: 100px;">@L("Amount")</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>@Model.Invoice.EditionDisplayName </td>
+                                        <td>@AbpZeroTemplateConsts.CurrencySign@Model.Invoice.Amount </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="kt-invoice__footer">
+                        <div class="kt-invoice__container kt-invoice__container--centered">
+                            <div class="kt-invoice__content">
+                                <button type="button" class="btn btn-primary d-print-none print-btn" onclick="javascript:window.print();">@L("Print")</button>
+                            </div>
+                            <div class="kt-invoice__content">
+                                <span>@L("Total")</span>
+                                <span class="kt-invoice__price">@AbpZeroTemplateConsts.CurrencySign@Model.Invoice.Amount.ToString("N2")</span>
+                                <span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

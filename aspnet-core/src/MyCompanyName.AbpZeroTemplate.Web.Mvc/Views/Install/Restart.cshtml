@@ -1,0 +1,47 @@
+﻿@using Abp.AspNetZeroCore.Timing
+@using Abp.Web.Security.AntiForgery
+@using MyCompanyName.AbpZeroTemplate.UiCustomization.Dto
+@using CultureHelper = MyCompanyName.AbpZeroTemplate.Localization.CultureHelper
+@model MyCompanyName.AbpZeroTemplate.Web.Models.Install.InstallViewModel
+@inject AppTimes AppTimes
+@inject IAbpAntiForgeryManager AbpAntiForgeryManager
+@{
+    Layout = null;
+    AbpAntiForgeryManager.SetCookie(Context);
+    UiCustomizationSettingsDto theme = await GetTheme();
+}
+<!DOCTYPE html>
+<html lang="en" dir=@(CultureHelper.IsRtl ? "rtl" : "")>
+<head>
+    <title>AbpZeroTemplate Installation</title>
+
+    <link rel="shortcut icon" href="~/favicon.ico" />
+
+    <link rel="stylesheet" abp-href="/view-resources/Areas/AppAreaName/Views/_Bundles/vendors.bundle.css" asp-append-version="true" />
+    <link rel="stylesheet" href="/metronic/themes/default/css/style.bundle.css" asp-append-version="true" />
+    <link rel="stylesheet" abp-href="/view-resources/Areas/AppAreaName/Views/_Bundles/app-layout-libs.css" asp-append-version="true" />
+    <link rel="stylesheet" abp-href="/view-resources/Areas/AppAreaName/Views/_Bundles/common-styles.css" asp-append-version="true" />
+
+    @if (CultureHelper.IsRtl)
+    {
+        <link rel="stylesheet" href="/Common/Styles/abp-zero-template-rtl.css" asp-append-version="true" />
+    }
+
+    <link rel="stylesheet" abp-href="/view-resources/Views/Install/Index.css" asp-append-version="true" />
+</head>
+<body class="kt-page--fixed kt-header--static">
+    <div class="content">
+        <div class="kt-content">
+            <div class="kt-portlet">
+                <div class="kt-portlet__body">
+                    Restarting application...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        document.location = '/';
+    </script>
+</body>
+</html>

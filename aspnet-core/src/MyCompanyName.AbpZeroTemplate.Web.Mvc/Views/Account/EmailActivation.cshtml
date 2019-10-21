@@ -1,0 +1,29 @@
+﻿@using Abp.Authorization.Users
+@using MyCompanyName.AbpZeroTemplate.Localization
+@section Scripts
+{
+    <script abp-src="/view-resources/Views/Account/EmailActivation.js" asp-append-version="true"></script>
+}
+@section Styles{
+    <link href="/metronic/common/css/login-1@(CultureHelper.IsRtl ? ".rtl":"").css" rel="stylesheet" />
+}
+<div class="kt-login__form">
+    <div class="kt-login__title">
+        <h3 class="m-0">
+            @L("EmailActivation")
+        </h3>
+    </div>
+    <form class="kt-form email-activation-form" asp-action="SendEmailActivationLink" method="post">
+        <p>
+            @L("SendEmailActivationLink_Information")
+        </p>
+        <div class="form-group">
+            <input class="form-control placeholder-no-fix" type="email" autocomplete="new-password" placeholder="@L("EmailAddress")" name="EmailAddress" required maxlength="@AbpUserBase.MaxEmailAddressLength" />
+        </div>
+
+        <div class="kt-login__actions">
+            <a asp-action="Login"><button type="button" id="back-btn" class="btn btn-light btn-elevate kt-login__btn-secondary">@L("Back")</button></a>
+            <button type="submit" class="btn btn-primary btn-elevate kt-login__btn-primary">@L("Submit")</button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,29 @@
+﻿@using MyCompanyName.AbpZeroTemplate.Localization
+@model MyCompanyName.AbpZeroTemplate.Web.Models.Account.SendSecurityCodeViewModel
+@section Styles{
+    <link href="/metronic/common/css/login-1@(CultureHelper.IsRtl ? ".rtl":"").css" rel="stylesheet" />
+}
+<div class="kt-login__form">
+    <div class="kt-login__title">
+        <h3 class="m-0">@L("SendSecurityCode")</h3>
+    </div>
+    <form class="kt-form" asp-action="SendSecurityCode" method="post">
+        <p>@L("SendSecurityCode_Information")</p>
+
+        @Html.Hidden("returnUrl", Model.ReturnUrl)
+        @Html.Hidden("rememberMe", @Model.RememberMe)
+
+        <div class="form-group">
+            @Html.DropDownListFor(model => model.SelectedProvider, Model.Providers, new
+           {
+               @class = "form-control",
+               size = 1
+           })
+        </div>
+
+        <div class="kt-login__actions">
+            <span>&nbsp;</span>
+            <input type="submit" class="btn btn-primary btn-elevate kt-login__btn-primary" value="@L("Submit")" />
+        </div>
+    </form>
+</div>

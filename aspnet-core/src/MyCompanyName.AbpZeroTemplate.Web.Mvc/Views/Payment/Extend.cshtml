@@ -1,0 +1,74 @@
+﻿@using System.Globalization
+@using MyCompanyName.AbpZeroTemplate
+@using MyCompanyName.AbpZeroTemplate.Editions
+@using MyCompanyName.AbpZeroTemplate.Localization
+@using MyCompanyName.AbpZeroTemplate.MultiTenancy.Payments;
+@using MyCompanyName.AbpZeroTemplate.MultiTenancy.Payments.Dto
+@model MyCompanyName.AbpZeroTemplate.Web.Models.Payment.ExtendEditionViewModel
+
+@{
+    Layout = "~/Views/Account/_Layout.cshtml";
+    ViewBag.DisableTenantChange = true;
+}
+
+@section Scripts
+    {
+    <script abp-src="/view-resources/Views/Payment/Extend.js" asp-append-version="true"></script>
+}
+
+@section Styles
+{
+    <link abp-href="/view-resources/Views/Payment/Payment.css" rel="stylesheet" type="text/css" />
+    <link href="/metronic/common/css/login-1@(CultureHelper.IsRtl ? ".rtl":"").css" rel="stylesheet" />
+}
+
+<div class="kt-login__form">
+    <div class="kt-login__title">
+        <h3 class="m-0">@L("PaymentInfo")</h3>
+        <div class="hint text-center mt-3">(@L(EditionPaymentType.Extend + "_Edition_Description", Model.Edition.DisplayName))</div>
+    </div>
+    <div>
+        <input type="hidden" name="EditionId" value="@Model.Edition.Id" />
+        <input type="hidden" name="EditionPaymentType" value="@EditionPaymentType.Extend" />
+        <input type="hidden" name="SubscriptionStartType" value="@SubscriptionStartType.Paid" />
+        <input type="hidden" name="RecurringPaymentEnabled" value="false" />
+
+        @if (ViewBag.ErrorMessage != null)
+        {
+            <div class="alert alert-danger">
+                <i class="fa fa-exclamation-triangle"></i> @ViewBag.ErrorMessage
+            </div>
+        }
+
+        <div class="kt-radio-inline mb-3">
+            @if (Model.Edition.MonthlyPrice.HasValue)
+            {
+                <label class="kt-radio margin-bottom-0">
+                    <input class="form-control" type="radio" name="PaymentPeriodType"
+                           data-day-count="@((int) PaymentPeriodType.Monthly)"
+                           data-payment-period-type-amount="@(Model.Edition.MonthlyPrice.Value.ToString("0.00", CultureInfo.InvariantCulture))"
+                           value="@PaymentPeriodType.Monthly" />@L("MonthlyPrice"): @AbpZeroTemplateConsts.CurrencySign@Model.Edition.MonthlyPrice.Value.ToString("N2")
+                        <span></span>
+                </label>
+            }
+
+            @if (Model.Edition.AnnualPrice.HasValue)
+            {
+                <label class="kt-radio margin-bottom-0">
+                    <input class="form-control" type="radio" name="PaymentPeriodType"
+                           data-day-count="@((int) PaymentPeriodType.Annual)"
+                           data-payment-period-type-amount="@(Model.Edition.AnnualPrice.Value.ToString("0.00", CultureInfo.InvariantCulture))"
+                           value="@PaymentPeriodType.Annual" />@L("AnnualPrice"): @AbpZeroTemplateConsts.CurrencySign@Model.Edition.AnnualPrice.Value.ToString("N2")
+                        <span></span>
+                </label>
+            }
+        </div>
+    </div>
+
+    @foreach (var paymentGateway in Model.PaymentGateways)
+    {
+        <div class="form-group">
+            <button data-gateway="@paymentGateway.GatewayType" data-supports-subscription="@paymentGateway.SupportsRecurringPayments.ToString().ToLower()" class="btn btn-success btn-block checkout">@L("CheckoutWith" + paymentGateway.GatewayType)</button>
+        </div>
+    }
+</div>

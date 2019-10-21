@@ -1,0 +1,128 @@
+﻿@model MyCompanyName.AbpZeroTemplate.Configuration.Dto.ThemeSettingsDto
+
+<ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item">
+        <a href="#DefaultHeader" class="nav-link active" data-toggle="tab" role="tab">
+            @L("UiCustomization_Header")
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="#DefaultSubHeader" class="nav-link" data-toggle="tab" role="tab">
+            @L("UiCustomization_SubHeader")
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="#DefaultMenu" class="nav-link" data-toggle="tab" role="tab">
+            @L("UiCustomization_Menu")
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="#DefaultFooter" class="nav-link" data-toggle="tab" role="tab">
+            @L("UiCustomization_Footer")
+        </a>
+    </li>
+</ul>
+<div class="tab-content">
+    <div id="DefaultHeader" class="tab-pane active">
+        <input type="hidden" name="Theme" value="default" />
+        <form class="HeaderSettingsForm">
+            <h5 class="mb-2">@L("UiCustomization_HeaderSkin")</h5>
+            <div class="form-group">
+                @Html.DropDownList("HeaderSkin", new SelectList(new List<SelectListItem>
+                {
+                    new SelectListItem {Text = L("UiCustomization_Light"), Value = "light"},
+                    new SelectListItem {Text = L("UiCustomization_Dark"), Value = "dark"}
+                }, "Value", "Text", Model.Header.HeaderSkin), new { @class = "form-control w-25", id = "HeaderSkin" })
+            </div>
+            <h5 class="mb-2">@L("UiCustomization_Desktop")</h5>
+            <div class="form-group">
+                <label class="kt-checkbox col-lg-12">
+                    <input type="checkbox" name="DesktopFixedHeader" value="true" @(Model.Header.DesktopFixedHeader ? "checked=\"checked\"" : "")>
+                    @L("UiCustomization_DesktopFixedHeader")
+                    <span></span>
+                </label>
+            </div>
+            <h5 class="mb-2">@L("UiCustomization_Mobile")</h5>
+            <div class="form-group">
+                <label class="kt-checkbox col-lg-12">
+                    <input type="checkbox" name="MobileFixedHeader" value="true" @(Model.Header.MobileFixedHeader ? "checked=\"checked\"" : "")>
+                    @L("UiCustomization_MobileFixedHeader")
+                    <span></span>
+                </label>
+            </div>
+        </form>
+    </div>
+    <div id="DefaultSubHeader" class="tab-pane">
+        <form class="SubHeaderSettingsForm">
+            <h5 class="mb-2">@L("UiCustomization_SubHeader")</h5>
+            <div class="form-group">
+                <label class="kt-checkbox col-lg-12">
+                    <input type="checkbox" name="FixedSubHeader" value="true" @(Model.SubHeader.FixedSubHeader ? "checked=\"checked\"" : "")>
+                    @L("UiCustomization_FixedSubHeader")
+                    <span></span>
+                </label>
+            </div>
+            <h5 class="mb-2">@L("UiCustomization_SubHeaderStyle")</h5>
+            <div class="form-group">
+                @Html.DropDownList("SubHeaderStyle", new SelectList(new List<SelectListItem>
+                {
+                    new SelectListItem {Text = L("UiCustomization_SubHeaderStyle_Transparent"), Value = "transparent"},
+                    new SelectListItem {Text = L("UiCustomization_SubHeaderStyle_Solid"), Value = "solid"}
+                }, "Value", "Text", Model.SubHeader.SubheaderStyle), new { @class = "form-control w-25", id = "SubHeaderStyle" })
+            </div>
+        </form>
+    </div>
+    <div id="DefaultMenu" class="tab-pane">
+        <form class="MenuSettingsForm">
+            <h5 class="mb-2">@L("UiCustomization_MenuSkin")</h5>
+            <div class="form-group">
+                @Html.DropDownList("AsideSkin", new SelectList(new List<SelectListItem>
+                {
+                    new SelectListItem {Text = L("UiCustomization_Light"), Value = "light"},
+                    new SelectListItem {Text = L("UiCustomization_Dark"), Value = "dark"}
+                }, "Value", "Text", Model.Menu.AsideSkin), new { @class = "form-control w-25", id = "AsideSkin" })
+            </div>
+            <div class="form-group">
+                <label class="kt-checkbox col-lg-12">
+                    <input type="checkbox" name="FixedAside" value="true" @(Model.Menu.FixedAside ? "checked=\"checked\"" : "")>
+                    @L("UiCustomization_FixedMenu")
+                    <span></span>
+                </label>
+            </div>
+            <div class="form-group">
+                <label class="kt-checkbox col-lg-12">
+                    <input type="checkbox" name="AllowAsideMinimizing" value="true" @(Model.Menu.AllowAsideMinimizing ? "checked=\"checked\"" : "")>
+                    @L("UiCustomization_AllowAsideMinimizing")
+                    <span></span>
+                </label>
+            </div>
+            <div class="form-group">
+                <label class="kt-checkbox col-lg-12">
+                    <input type="checkbox" name="DefaultMinimizedAside" value="true" @(Model.Menu.DefaultMinimizedAside ? "checked=\"checked\"" : "")>
+                    @L("UiCustomization_DefaultMinimizedAside")
+                    <span></span>
+                </label>
+            </div>
+            <h5 class="mb-2">@L("UiCustomization_SubmenuToggle")</h5>
+            <div class="form-group">
+                @Html.DropDownList("SubmenuToggle", new SelectList(new List<SelectListItem>
+                {
+                    new SelectListItem {Text = L("UiCustomization_SubmenuToggle_Accordion"), Value = "false"},
+                    new SelectListItem {Text = L("UiCustomization_SubmenuToggle_Dropdown"), Value = "true"}
+                }, "Value", "Text", Model.Menu.SubmenuToggle), new { @class = "form-control w-25", id = "SubmenuToggle" })
+            </div>
+        </form>
+    </div>
+    <div id="DefaultFooter" class="tab-pane">
+        <form class="FooterSettingsForm">
+            <h5 class="mb-2">@L("UiCustomization_Footer")</h5>
+            <div class="form-group">
+                <label class="kt-checkbox col-lg-12">
+                    <input type="checkbox" name="FixedFooter" value="true" @(Model.Footer.FixedFooter ? "checked=\"checked\"" : "")>
+                    @L("UiCustomization_FixedFooter")
+                    <span></span>
+                </label>
+            </div>
+        </form>
+    </div>
+</div>

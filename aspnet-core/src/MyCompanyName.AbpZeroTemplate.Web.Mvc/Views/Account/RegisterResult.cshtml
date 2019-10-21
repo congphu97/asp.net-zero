@@ -1,0 +1,34 @@
+﻿@using MyCompanyName.AbpZeroTemplate.Localization
+@model MyCompanyName.AbpZeroTemplate.Web.Models.Account.RegisterResultViewModel
+@section Styles{
+    <link href="/metronic/common/css/login-1@(CultureHelper.IsRtl ? ".rtl":"").css" rel="stylesheet" />
+}
+<div class="kt-login__form">
+    <div class="kt-login__title">
+        <h3 class="m-0">
+            @L("SuccessfullyRegistered")
+        </h3>
+    </div>
+    <form class="kt-form">
+        <ul>
+            <li><span class="text-muted">@L("NameSurname"):</span> @Model.NameAndSurname</li>
+            <li><span class="text-muted">@L("TenancyName"):</span> @Model.TenancyName</li>
+            <li><span class="text-muted">@L("UserName"):</span> @Model.UserName</li>
+            <li><span class="text-muted">@L("EmailAddress"):</span> @Model.EmailAddress</li>
+        </ul>
+        <div>
+            @if (Model.IsEmailConfirmationRequired)
+            {
+                <div class="alert alert-warning" role="alert">
+                    @L("ConfirmationMailSentPleaseClickLinkInTheEmail", Model.EmailAddress)
+                </div>
+            }
+            @if (!Model.IsActive)
+            {
+                <div class="alert alert-warning" role="alert">
+                    @L("YourAccountIsWaitingToBeActivatedByAdmin")
+                </div>
+            }
+        </div>
+    </form>
+</div>    

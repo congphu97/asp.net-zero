@@ -1,0 +1,79 @@
+﻿@model MyCompanyName.AbpZeroTemplate.Web.Models.Account.RegisterViewModel
+@using Abp.Json
+@using MyCompanyName.AbpZeroTemplate.Localization
+@addTagHelper *, PaulMiami.AspNetCore.Mvc.Recaptcha
+@section Scripts
+{
+    <script>
+        window.passwordComplexitySetting = @Html.Raw(Model.PasswordComplexitySetting.ToJsonString(indented: true));
+    </script>
+
+    <script abp-src="/view-resources/Views/Account/Register.js" asp-append-version="true"></script>
+
+    <recaptcha-script />
+}
+
+@section Styles{
+    <link href="/metronic/common/css/login-1@(CultureHelper.IsRtl ? ".rtl":"").css" rel="stylesheet" />
+}
+
+<div class="kt-login__form">
+    <div class="kt-login__title">
+        <h3 class="m-0">
+            @L("SignUp")
+        </h3>
+    </div>
+    <form class="kt-form register-form" asp-action="Register" method="post">
+
+        @if (@ViewBag.ErrorMessage != null)
+        {
+            <div class="alert alert-danger">
+                <div class="alert-icon"><i class="fa fa-exclamation-triangle"></i></div>
+                <div class="alert-text">@ViewBag.ErrorMessage</div>
+            </div>
+        }
+
+        <input type="hidden" name="IsExternalLogin" value="@Model.IsExternalLogin.ToString()" />
+        <input type="hidden" name="ExternalLoginAuthSchema" value="@Model.ExternalLoginAuthSchema" />
+        <input type="hidden" name="SingleSignOn" value="@Model.SingleSignIn" />
+        <input type="hidden" name="ReturnUrl" value="@Model.ReturnUrl" />
+
+        <div class="form-group">
+            <input class="form-control" type="text" placeholder="@L("Name")" name="Name" required value="@Model.Name" maxlength="@MyCompanyName.AbpZeroTemplate.Authorization.Users.User.MaxNameLength" />
+        </div>
+        <div class="form-group ">
+            <input class="form-control" type="text" placeholder="@L("Surname")" name="Surname" required value="@Model.Surname" maxlength="@MyCompanyName.AbpZeroTemplate.Authorization.Users.User.MaxSurnameLength" />
+        </div>
+        <div class="form-group ">
+            <input class="form-control" type="email" placeholder="@L("EmailAddress")" name="EmailAddress" required value="@Model.EmailAddress" maxlength="@MyCompanyName.AbpZeroTemplate.Authorization.Users.User.MaxEmailAddressLength" />
+        </div>
+
+        @if (!Model.IsExternalLogin)
+        {
+            <div class="form-group">
+                <input class="form-control input-ltr" type="text" autocomplete="new-password" placeholder="@L("UserName")" name="UserName" value="@Model.UserName" required maxlength="@MyCompanyName.AbpZeroTemplate.Authorization.Users.User.MaxUserNameLength" />
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="password" autocomplete="new-password" id="RegisterPassword" placeholder="@L("Password")" name="Password" required />
+            </div>
+            <div class="form-group ">
+                <input class="form-control" type="password" autocomplete="new-password" placeholder="@L("PasswordRepeat")" name="PasswordRepeat" required />
+            </div>
+        }
+
+        @if (ViewBag.UseCaptcha)
+        {
+            <p class="hint margin-top-20">
+                @L("Captha_Hint")
+            </p>
+            <div class="form-group margin-bottom-20">
+                <recaptcha />
+            </div>
+        }
+
+        <div class="kt-login__actions">
+            <a asp-action="Login"><button type="button" id="register-back-btn" class="btn btn-light btn-elevate kt-login__btn-secondary">@L("Back")</button></a>
+            <button type="submit" id="register-submit-btn" class="btn btn-primary btn-elevate kt-login__btn-primary">@L("Submit")</button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,36 @@
+﻿@using MyCompanyName.AbpZeroTemplate.Localization
+@model MyCompanyName.AbpZeroTemplate.Web.Models.Stripe.StripePurchaseViewModel
+@{
+    Layout = "~/Views/Account/_Layout.cshtml";
+    ViewBag.DisableTenantChange = true;
+}
+
+@section Styles{
+    <link href="/metronic/common/css/login-1@(CultureHelper.IsRtl ? ".rtl":"").css" rel="stylesheet" />
+}
+
+<div class="kt-login__form">
+    <div class="kt-login__title">
+        <h3 class="m-0">@L("Purchase")</h3>
+    </div>
+    <hr class="border-green" />
+    <div class="form-actions">
+        <div class="form-group row">
+            <label class="col-sm-4 control-label">@L("Item")</label>
+            <div class="col-sm-8 text-right">
+                <p class="form-control-static text-bold">
+                    @Model.Description
+                </p>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-12 control-label">@L("RecurringSubscriptionUpgradeNote")</label>
+        </div>
+    </div>
+
+    <form id="stripeCheckoutForm" method="post" asp-action="UpdateSubscription" asp-controller="Stripe" class="register-form">
+        <input type="hidden" name="paymentId" value="@Model.PaymentId" />
+
+        <button type="submit" class="stripe-checkout-button btn btn-primary btn-block">@L("Upgrade")</button>
+    </form>
+</div>

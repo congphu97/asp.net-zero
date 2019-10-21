@@ -1,0 +1,54 @@
+﻿@import "../mobile-header.less";
+@import "../cookie-consent.less";
+
+.kt-subheader {
+    background-color: transparent;
+}
+
+.kt-aside--on {
+    .kt-aside-close {
+        left: 240px;
+    }
+}
+
+.kt-user-card {
+    .kt-user-card__name {
+        color: #6c7293 !important;
+    }
+}
+
+.kt-header__topbar-item {
+    h3.kt-head__title {
+        color: #6c7293 !important;
+    }
+}
+
+body {
+    .kt-header__topbar {
+
+        .kt-header__topbar-item.kt-header__topbar-item--langs {
+            margin-right: 0;
+        }
+
+        .subscription-warning {
+            padding-top: 32px;
+
+            a {
+                span {
+                    white-space: nowrap;
+                }
+            }
+        }
+    }
+}
+
+.unread-notification-count {
+    position: absolute;
+    top: 19px !important;
+    right: 2px;
+    font-size: 1.0rem !important;
+    left: initial !important;
+    margin-left: initial !important;
+    width: 17px !important;
+    height: 17px !important;
+}

@@ -1,0 +1,285 @@
+﻿@using MyCompanyName.AbpZeroTemplate.Web.Areas.AppAreaName.Startup
+@using MyCompanyName.AbpZeroTemplate.Web.Areas.AppAreaName.Models.HostDashboard
+@model HostDashboardViewModel
+@{
+    ViewBag.CurrentPageName = AppAreaNamePageNames.Host.Dashboard;
+}
+
+@section Styles
+    {
+    <link rel="stylesheet" abp-href="/view-resources/Areas/AppAreaName/Views/HostDashboard/Index.css" asp-append-version="true" />
+}
+
+@section Scripts
+    {
+    <script abp-src="/view-resources/Areas/AppAreaName/Views/_Bundles/host-dashboard-libs.js" asp-append-version="true"></script>
+}
+
+<div id="HostDashboard">
+    <div class="kt-subheader kt-grid__item">
+        <div class="kt-subheader__main">
+            <h3 class="kt-subheader__title">
+                <span>@L("Dashboard")</span>
+            </h3>
+            <span class="kt-subheader__separator kt-subheader__separator--v"></span>
+            <span class="kt-subheader__desc">
+                @L("HostDashboardHeaderInfo")
+            </span>
+        </div>
+        <div class="kt-subheader__toolbar">
+            <div class="kt-subheader__wrapper">
+                <button name="RefreshButton" class="btn btn-primary">
+                    <i class="la la-refresh"></i>
+                    <span class="d-none d-sm-inline-block">
+                        @L("Refresh")
+                    </span>
+                </button>
+                <a href="#" class="btn btn-primary dashboard-report-range">
+                    <i class="la la-calendar" aria-label="@L(" Expand")"></i>
+                    <span class="d-none d-sm-inline-block">
+                    </span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="kt-content kt-grid__item kt-grid__item--fluid">
+        <div class="kt-portlet">
+            <div class="kt-portlet__body  kt-portlet__body--fit">
+                <div class="row row-no-padding row-col-separator-xl">
+                    <div class="col-md-12 col-lg-6 col-xl-3">
+                        <div class="kt-widget24 new-subscription-statistics">
+                            <div class="kt-widget24__details">
+                                <div class="kt-widget24__info">
+                                    <h4 class="kt-widget24__title">
+                                        @L("NewSubscriptionAmount")
+                                    </h4>
+                                    <span class="kt-widget24__desc">
+                                        @L("Subscriptions")
+                                    </span>
+                                </div>
+                                <span class="kt-widget24__stats kt-font-brand">
+                                    $<span class="new-subscription-amount counterup">...</span>
+                                </span>
+                            </div>
+                            <div class="progress progress--sm">
+                                <div class="progress-bar kt-bg-brand" role="progressbar" style="width: 100%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div class="kt-widget24__action">
+                                <span class="kt-widget24__change">
+                                    <div class="status-title"></div>
+                                </span>
+                                <span class="kt-widget24__number">
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-6 col-xl-3">
+                        <div class="kt-widget24 new-tenants-statistics">
+                            <div class="kt-widget24__details">
+                                <div class="kt-widget24__info">
+                                    <h4 class="kt-widget24__title">
+                                        @L("NewTenants")
+                                    </h4>
+                                    <span class="kt-widget24__desc">
+                                        @L("Tenants")
+                                    </span>
+                                </div>
+                                <span class="kt-widget24__stats kt-font-info new-tenants-count counterup">
+                                    ...
+                                </span>
+                            </div>
+                            <div class="progress progress--sm">
+                                <div class="progress-bar kt-bg-info" role="progressbar" style="width: 100%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div class="kt-widget24__action">
+                                <span class="kt-widget24__change">
+                                    <div class="status-title"></div>
+                                </span>
+                                <span class="kt-widget24__number">
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-6 col-xl-3">
+                        <div class="kt-widget24 dashboard-statistics1">
+                            <div class="kt-widget24__details">
+                                <div class="kt-widget24__info">
+                                    <h4 class="kt-widget24__title">
+                                        @L("DashboardSampleStatistics") 1
+                                    </h4>
+                                    <span class="kt-widget24__desc">
+                                        @L("DashboardSampleStatistics")
+                                    </span>
+                                </div>
+                                <span class="kt-widget24__stats kt-font-danger dashboard-placeholder1 counterup">
+                                    ...
+                                </span>
+                            </div>
+                            <div class="progress progress--sm">
+                                <div class="progress-bar kt-bg-danger" role="progressbar" style="width: 45%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div class="kt-widget24__action">
+                                <span class="kt-widget24__change">
+                                    @L("DashboardSampleStatisticsHelpText")
+                                </span>
+                                <span class="kt-widget24__number">
+                                    <span class="counterup">45</span>%
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-6 col-xl-3">
+                        <div class="kt-widget24 dashboard-statistics2">
+                            <div class="kt-widget24__details">
+                                <div class="kt-widget24__info">
+                                    <h4 class="kt-widget24__title">
+                                        @L("DashboardSampleStatistics") 2
+                                    </h4>
+                                    <span class="kt-widget24__desc">
+                                        @L("DashboardSampleStatistics")
+                                    </span>
+                                </div>
+                                <span class="kt-widget24__stats kt-font-success dashboard-placeholder2 counterup">
+                                    ...
+                                </span>
+                            </div>
+                            <div class="progress progress--sm">
+                                <div class="progress-bar kt-bg-success" role="progressbar" style="width: 65%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div class="kt-widget24__action">
+                                <span class="kt-widget24__change">
+                                    @L("DashboardSampleStatisticsHelpText")
+                                </span>
+                                <span class="kt-widget24__number">
+                                    <span class="counterup">65</span>%
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <div class="kt-portlet income-statistics">
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-portlet__head-title">
+                                <i class="la la-line-chart kt-font-info"></i>
+                                <span class="caption-subject font-blue bold uppercase">@L("IncomeStatistics")</span>
+                                <small>
+                                    <span class="caption-helper"></span>
+                                </small>
+                            </h3>
+                        </div>
+                        <div class="kt-portlet__head-toolbar">
+                            <div class="btn-group btn-group-devided" data-toggle="buttons">
+                                <label class="btn btn-secondary active">
+                                    <input type="radio" name="IncomeStatisticsDatePeriod" class="toggle" value="1" checked>@L("Daily")
+                                </label>
+                                <label class="btn btn-secondary">
+                                    <input type="radio" name="IncomeStatisticsDatePeriod" class="toggle" value="2">@L("Weekly")
+                                </label>
+                                <label class="btn btn-secondary">
+                                    <input type="radio" name="IncomeStatisticsDatePeriod" class="toggle" value="3">@L("Monthly")
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="kt-portlet__body">
+                        <div class="chart income-statistics-chart">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <div class="kt-portlet edition-statistics">
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-portlet__head-title">
+                                <i class="la la-pie-chart kt-font-success"></i>
+                                <span class="caption-subject font-green-seagreen">@L("EditionStatistics")</span>
+                                <small>
+                                    <span class="caption-helper"></span>
+                                </small>
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="kt-portlet__body">
+                        <div id="EditionStatisticsChart" class="chart edition-statistics-chart"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-xs-12 col-sm-12">
+                <div class="kt-portlet expiring-tenants">
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-portlet__head-title">
+                                <i class="far fa-clock kt-font-danger"></i>
+                                <span class="caption-subject kt-font-danger font-bold uppercase">@L("SubscriptionExpiringTenants")</span><br />
+                                <small>
+                                    <span class="caption-helper"></span>
+                                </small>
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="kt-portlet__body">
+                        <div class="scroller chart kt-scroll" data-always-visible="1" data-rail-visible="0" data-scrollable="true">
+                            <table class="expiring-tenants-table display table table-striped table-bordered table-hover dt-responsive nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>@L("TenantName")</th>
+                                        <th>@L("RemainingDay")</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="scroller-footer">
+                            <div class="pull-right">
+                                <a href="javascript:;" class="see-all-expiring-tenants">@L("SeeAllRecords")</a>
+                                <i class="fas fa-angle-double-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-xs-12 col-sm-12">
+                <div class="kt-portlet recent-tenants">
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-portlet__head-title">
+                                <i class="fas fa-user-plus kt-font-primary"></i>
+                                <span class="caption-subject kt-font-primary">@L("RecentTenants")</span><br />
+                                <small>
+                                    <span class="caption-helper"></span>
+                                </small>
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="kt-portlet__body">
+                        <div class="scroller chart kt-scroll" data-always-visible="1" data-rail-visible="0" data-scrollable="true">
+                            <table class="recent-tenants-table display table table-striped table-bordered table-hover dt-responsive nowrap">
+                                <thead>
+                                    <tr>
+                                        <th>@L("TenantName")</th>
+                                        <th>@L("CreationTime")</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="scroller-footer">
+                            <div class="pull-right">
+                                <a href="javascript:;" class="see-all-recent-tenants">@L("SeeAllRecords")</a>
+                                <i class="fas fa-angle-double-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

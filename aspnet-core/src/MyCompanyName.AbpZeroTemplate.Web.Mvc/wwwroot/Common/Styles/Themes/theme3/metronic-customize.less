@@ -1,0 +1,33 @@
+﻿@import "../mobile-header.less";
+@import "../cookie-consent.less";
+
+.kt-header__topbar-username {
+    color: #c7c7de !important;
+}
+
+.kt-menu__link-text {
+    text-align: center;
+}
+
+body {
+    .kt-header__topbar {
+        .subscription-warning {
+            padding-top: 32px;
+        }
+    }
+
+    &.kt-header--minimize {
+        .kt-header__topbar {
+            .subscription-warning {
+                padding-top: 18px;
+            }
+        }
+    }
+}
+.unread-notification-count {
+    position: absolute;
+    top: 19px;
+    right: 4px;
+    font-size: 1.0rem !important;
+}
+

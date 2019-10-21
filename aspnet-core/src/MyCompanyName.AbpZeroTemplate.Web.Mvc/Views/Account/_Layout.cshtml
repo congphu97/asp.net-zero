@@ -1,0 +1,133 @@
+﻿@using System.Threading.Tasks
+@using Abp.AspNetZeroCore.Timing
+@using Abp.Configuration.Startup
+@using Abp.Timing
+@using Abp.Web.Security.AntiForgery
+@using MyCompanyName.AbpZeroTemplate.Timing
+@using MyCompanyName.AbpZeroTemplate.UiCustomization.Dto
+@using MyCompanyName.AbpZeroTemplate.Url
+@using MyCompanyName.AbpZeroTemplate.Web.Resources
+@using CultureHelper = MyCompanyName.AbpZeroTemplate.Localization.CultureHelper
+@inject ScriptPaths ScriptPaths
+@inject AppTimes AppTimes
+@inject IAbpAntiForgeryManager AbpAntiForgeryManager
+@inject IMultiTenancyConfig MultiTenancyConfig
+@inject IWebResourceManager WebResourceManager
+@inject IWebUrlService WebUrlService
+@{
+    Layout = null;
+    AbpAntiForgeryManager.SetCookie(Context);
+    UiCustomizationSettingsDto theme = await GetTheme();
+}
+<!DOCTYPE html>
+<html lang="en" dir=@(CultureHelper.IsRtl ? "rtl" : "")>
+<head>
+    <meta charset="utf-8" />
+    <title>AbpZeroTemplate</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+
+    @* Fill these meta tags upon your project specification *@
+    <meta content="AbpZeroTemplate" name="description" />
+    <meta content="AbpZeroTemplate" name="keywords">
+    <meta content="AbpZeroTemplate" name="author" />
+
+    <link rel="shortcut icon" href="~/favicon.ico" />
+
+    <link rel="stylesheet" abp-href="/view-resources/Areas/AppAreaName/Views/_Bundles/vendors.bundle.css" asp-append-version="true" />
+    <link rel="stylesheet" href="@(ApplicationPath)metronic/themes/default/css/style.bundle@(CultureHelper.IsRtl ? ".rtl":"").css" asp-append-version="true" />
+    <link rel="stylesheet" abp-href="/view-resources/Areas/AppAreaName/Views/_Bundles/account-layout-libs.css" asp-append-version="true" />
+
+    <link rel="stylesheet" abp-href="/view-resources/Areas/AppAreaName/Views/_Bundles/common-styles.css" asp-append-version="true" />
+
+    @if (CultureHelper.IsRtl)
+    {
+        <link rel="stylesheet" href="/Common/Styles/abp-zero-template-rtl.css" asp-append-version="true" />
+    }
+
+    <link rel="stylesheet" abp-href="/view-resources/Views/Account/_Layout.css" asp-append-version="true" />
+
+    @await RenderSectionAsync("Styles", false)
+
+    <script type="text/javascript">
+        @* This is used to get the application's root path from javascript.
+        It's useful if you're running application in a virtual directory under IIS. *@
+        var abp = abp || {}; abp.appPath = '@ApplicationPath';
+    </script>
+
+</head>
+<body class="kt-header--fixed kt-header-mobile--fixed kt-subheader--fixed kt-subheader--enabled kt-subheader--solid kt-aside--enabled kt-aside--fixed kt-page--loading">
+    <!-- begin:: Page -->
+    <div class="kt-grid kt-grid--ver kt-grid--root">
+        <div class="kt-grid kt-grid--hor kt-grid--root  kt-login kt-login--v1" id="kt_login">
+            <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--desktop kt-grid--ver-desktop kt-grid--hor-tablet-and-mobile">
+
+                <!--begin::Aside-->
+                <div class="kt-grid__item kt-grid__item--order-tablet-and-mobile-2 kt-grid kt-grid--hor kt-login__aside" style="background-image: url(@(ApplicationPath)metronic/common/images/bg/bg-4.jpg)">
+                    <div class="kt-grid__item">
+                        <a href="#" class="kt-login__logo">
+                            <vc:account-logo skin="dark"></vc:account-logo>
+                        </a>
+                    </div>
+                    <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver">
+                        <div class="kt-grid__item kt-grid__item--middle">
+                            <h3 class="kt-login__title">AspNet Zero</h3>
+                            <h4 class="kt-login__subtitle">Base solution for your next web application.</h4>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!--begin::Aside-->
+                <!--begin::Content-->
+                <div class="kt-grid__item kt-grid__item--fluid  kt-grid__item--order-tablet-and-mobile-1  kt-login__wrapper d-block">
+
+
+                    <!--begin::Head-->
+                    <div class="kt-login__head d-block mt-3 mr-auto ml-auto text-right">
+                        <vc:account-languages></vc:account-languages>
+                    </div>
+                    <!--end::Head-->
+                    <!--begin::Body-->
+                    <div class="kt-login__body d-block mt-3 mr-auto ml-auto">
+
+                        @if (!(ViewBag.DisableTenantChange ?? false) && MultiTenancyConfig.IsEnabled && !WebUrlService.SupportsTenancyNameInUrl)
+                        {
+                            <div class="kt-login__signup-label tenant-change-box text-center">
+                                <vc:tenant-change></vc:tenant-change>
+                            </div>
+                        }
+                        @RenderBody()
+                    </div>
+                    <!--end::Body-->
+                </div>
+
+                <!--end::Content-->
+            </div>
+        </div>
+    </div>
+    <!--begin::Base Scripts -->
+    <script abp-src="/view-resources/Areas/AppAreaName/Views/_Bundles/account-layout-libs.js" asp-append-version="true"></script>
+
+    <!-- Dynamic scripts of ABP system (They are created on runtime and can not be bundled) -->
+    <script src="~/AbpServiceProxies/GetAll?v=@(AppTimes.StartupTime.Ticks)" type="text/javascript"></script>
+    <script src="~/AbpScripts/GetScripts?v=@(AppTimes.StartupTime.Ticks)" type="text/javascript"></script>
+
+    <script abp-src="/view-resources/Areas/AppAreaName/Views/_Bundles/common-scripts.js" asp-append-version="true"></script>
+    <script src="~@ScriptPaths.JQuery_Validation_Localization" asp-append-version="true"></script>
+
+    @WebResourceManager.RenderScripts()
+
+    @await RenderSectionAsync("Scripts", false)
+    <script>
+        app.supportsTenancyNameInUrl = @(WebUrlService.SupportsTenancyNameInUrl.ToString().ToLower());
+
+        jQuery(document).ready(function () {
+            if (window.CurrentPage) {
+                CurrentPage.init();
+            }
+        });
+    </script>
+</body>
+</html>

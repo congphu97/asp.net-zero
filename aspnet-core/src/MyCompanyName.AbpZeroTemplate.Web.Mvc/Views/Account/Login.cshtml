@@ -1,0 +1,120 @@
+﻿@using System.Globalization
+@using Abp.Extensions
+@using Abp.MultiTenancy
+@using MyCompanyName.AbpZeroTemplate.Identity
+@using MyCompanyName.AbpZeroTemplate.Localization
+@model MyCompanyName.AbpZeroTemplate.Web.Models.Account.LoginFormViewModel
+@inject SignInManager SignInManager
+@section Scripts
+{
+    <script abp-src="/view-resources/Views/Account/Login.js" asp-append-version="true"></script>
+}
+
+@section Styles{
+    <link href="/metronic/common/css/login-1@(CultureHelper.IsRtl ? ".rtl":"").css" rel="stylesheet" />
+}
+
+@if (!Model.SuccessMessage.IsNullOrEmpty())
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @Model.SuccessMessage
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+<!--begin::Signin-->
+<div class="kt-login__form">
+    <div class="kt-login__title">
+        <h3 class="m-0">@L("LogIn")</h3>
+    </div>
+
+    <!--begin::Form-->
+    <form class="kt-form login-form" asp-action="Login" method="post">
+        <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
+        <input type="hidden" name="returnUrlHash" />
+        <input type="hidden" name="ss" value="@ViewBag.SingleSignIn" />
+
+        <div class="form-group">
+            <input class="form-control" type="text" placeholder="@L("UserNameOrEmail")" name="usernameOrEmailAddress" autocomplete="new-password" value="@(Model.UserNameOrEmailAddress ?? "")" required>
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="password" placeholder="@L("Password")" name="password" autocomplete="new-password">
+        </div>
+
+        <div class="form-group mt-4">
+            <label class="kt-checkbox">
+                <input type="checkbox" name="rememberMe" value="true"> @L("RememberMe")
+                <span></span>
+            </label>
+        </div>
+
+        <!--begin::Action-->
+        <div class="kt-login__actions">
+            <a href="@Url.Action("ForgotPassword", "Account")" id="forget-password" class="kt-link kt-login__link-forgot">@L("ForgotPassword")</a>
+            <button type="submit" id="kt_login_signin_submit" class="btn btn-primary btn-elevate kt-login__btn-primary">@L("LogIn")</button>
+        </div>
+
+        <!--end::Action-->
+    </form>
+
+    <!--end::Form-->
+    <!--begin::Divider-->
+    <div class="kt-login__divider">
+        <div class="kt-divider">
+            <span></span>
+            <span>@L("LoginWith")</span>
+            <span></span>
+        </div>
+    </div>
+
+    <!--end::Divider-->
+    <!--begin::Options-->
+    @{
+        var loginProviders = (await SignInManager.GetExternalAuthenticationSchemesAsync())
+            .Where(s => !s.DisplayName.IsNullOrWhiteSpace())
+            .ToList();
+
+        Func<string, string> getSocialIconClass = (provider) =>
+        {
+            provider = provider.ToLower(CultureInfo.InvariantCulture);
+
+            return provider;
+        };
+    }
+
+    @if ((AbpSession.MultiTenancySide != MultiTenancySides.Host || !ViewBag.IsMultiTenancyEnabled) && loginProviders.Count > 0)
+    {
+        <div class="kt-login__options">
+            <form asp-action="ExternalLogin" method="post">
+                <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
+                <input type="hidden" name="provider" value="" />
+                <input type="hidden" name="ss" value="@ViewBag.SingleSignIn" />
+
+                @foreach (var p in loginProviders)
+                {
+                    <a href="#" class="btn btn-outline-secondary kt-btn btn-sm">
+                        <i class="fab fa-@getSocialIconClass(p.DisplayName)"></i>
+                        @p.DisplayName
+                    </a>
+                }
+            </form>
+        </div>
+    }
+    <!--end::Options-->
+</div>
+
+<div class="kt-login__account">
+    @if (Model.IsSelfRegistrationEnabled)
+    {
+        <a href="@Url.Action("Register", "Account", new { ss = ViewBag.SingleSignIn, returnUrl = ViewBag.ReturnUrl })" id="register-btn">@L("CreateAnAccount")</a>
+        <span class="pipe-divider"> | </span>
+    }
+    @if (Model.IsTenantSelfRegistrationEnabled)
+    {
+        <a href="@Url.Action("SelectEdition", "TenantRegistration")" id="register-btn">@L("NewTenant")</a>
+        <span class="pipe-divider"> | </span>
+    }
+    <a href="@Url.Action("EmailActivation", "Account")" id="email-activation-btn">@L("EmailActivation")</a>
+</div>

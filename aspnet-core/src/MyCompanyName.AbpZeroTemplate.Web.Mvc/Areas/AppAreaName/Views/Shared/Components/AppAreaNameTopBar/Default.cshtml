@@ -1,0 +1,304 @@
+﻿@using Abp.Configuration
+@using Abp.MultiTenancy
+@using Abp.Timing
+@using MyCompanyName.AbpZeroTemplate.Features
+@using MyCompanyName.AbpZeroTemplate.Web.Areas.AppAreaName.Models.Layout
+@using Abp.Extensions;
+@using Abp.Zero.Configuration
+@using MyCompanyName.AbpZeroTemplate.Configuration
+@using MyCompanyName.AbpZeroTemplate.UiCustomization
+@using MyCompanyName.AbpZeroTemplate.UiCustomization.Dto
+@using MyCompanyName.AbpZeroTemplate.Web.Areas.AppAreaName.Views.Shared.Components.AppAreaNameSubscriptionBar
+
+@model HeaderViewModel
+@{
+    Layout = null;
+    var isChatEnabled = (AbpSession.MultiTenancySide == MultiTenancySides.Host || IsFeatureEnabled(AppFeatures.ChatFeature));
+    UiCustomizationSettingsDto theme = await GetTheme();
+}
+
+<div class="kt-header__topbar">
+    <div class="kt-header__topbar-item dropdown d-none d-lg-block subscription-warning">
+        @await Component.InvokeAsync(typeof(AppAreaNameSubscriptionBarViewComponent))
+    </div>
+    @if (SettingManager.GetSettingValue<bool>(AppSettings.UserManagement.IsQuickThemeSelectEnabled))
+    {
+        <div id="kt_theme_selection_panel_toggle" class="kt-header__topbar-item dropdown">
+            <div class="kt-header__topbar-wrapper">
+                <span class="kt-header__topbar-icon kt-header__topbar-icon--brand">
+                    <i class="flaticon-interface-7"></i>
+                </span>
+            </div>
+        </div>
+    }
+    @if (Model.Languages.Count > 1)
+    {
+        <div class="kt-header__topbar-item kt-header__topbar-item--langs dropdown-language" aria-haspopup="true">
+            <div class="kt-header__topbar-wrapper" data-toggle="dropdown" data-offset="10px,0px" aria-expanded="false">
+                <span class="kt-header__topbar-icon kt-header__topbar-icon--brand">
+                    <i class="@Model.CurrentLanguage.Icon" aria-label="@Model.CurrentLanguage.Icon"></i>
+                </span>
+            </div>
+            <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right dropdown-menu-anim dropdown-menu-top-unround" aria-label="@L("Languages")">
+                <ul class="kt-nav kt-margin-t-10 kt-margin-b-10">
+                    @foreach (var language in Model.Languages.Where(language => language.Name != Model.CurrentLanguage.Name))
+                    {
+                        <li class="kt-nav__item">
+                            <a href="~/AbpLocalization/ChangeCulture?cultureName=@language.Name&returnUrl=@ApplicationPath@Context.Request.Path.Value.RemovePreFix("/")"
+                               class="kt-nav__link">
+                                <span class="kt-nav__link-icon">
+                                    <i class="@language.Icon"></i>
+                                </span>
+                                <span class="kt-nav__link-text">
+                                    @language.DisplayName
+                                </span>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    }
+    <div class="kt-header__topbar-item dropdown" id="header_notification_bar">
+
+    </div>
+    <div class="kt-header__topbar-item kt-header__topbar-item--user">
+        <div class="kt-header__topbar-wrapper" data-toggle="dropdown" data-offset="0px,0px" aria-expanded="false">
+            <div class="kt-header__topbar-user">
+                @if (Model.IsImpersonatedLogin)
+                {
+                    <i class="fa fa-reply kt--font-danger"></i>
+                }
+                <span class="kt-header__topbar-username kt-hidden-mobile">@Html.Raw(Model.GetShownLoginName())</span>
+                <img class="header-profile-picture" alt="Pic" src="@Url.Action("GetProfilePicture", "Profile", new {area = string.Empty})?t=@Clock.Now.Ticks.ToString()">
+            </div>
+        </div>
+        <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right dropdown-menu-anim dropdown-menu-top-unround dropdown-menu-xl" x-placement="bottom-end" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(1253px, 64px, 0px);">
+            <!--begin: Head -->
+            <div class="kt-user-card kt-user-card--skin-dark kt-notification-item-padding-x" style="background: url(@(ApplicationPath)metronic/themes/@theme.BaseSettings.Theme/images/bg/bg-1.jpg); background-size: cover; min-height: 100px;">
+                <div class="kt-user-card__avatar">
+                    <img class="" alt="Pic" src="@Url.Action("GetProfilePicture", "Profile", new {area = string.Empty})?t=@Clock.Now.Ticks.ToString()">
+                </div>
+                <div class="kt-user-card__name">
+                    @Html.Raw(Model.GetShownLoginName())
+                </div>
+            </div>
+            <!--end: Head -->
+            <!--begin: Navigation -->
+            <div class="kt-notification">
+                @if (Model.IsImpersonatedLogin)
+                {
+                    <a href="#" class="kt-notification__item" id="UserProfileBackToMyAccountButton">
+                        <div class="kt-notification__item-icon">
+                            <i class="fa fa-reply kt-font-danger"></i>
+                        </div>
+                        <div class="kt-notification__item-details">
+                            <div class="kt-notification__item-title kt-font-bold">
+                                <span>
+                                    @L("BackToMyAccount")
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                }
+                <a href="#" class="kt-notification__item linked-accounts" id="ManageLinkedAccountsLink">
+                    <div class="kt-notification__item-icon">
+                        <i class="flaticon-user-settings"></i>
+                    </div>
+                    <div class="kt-notification__item-details">
+                        <div class="kt-notification__item-title kt-font-bold">
+                            <span>
+                                @L("ManageLinkedAccounts")
+                            </span>
+                        </div>
+                    </div>
+                </a>
+                <div class="kt-notification__custom py-0 linked-accounts">
+                    <ul id="RecentlyUsedLinkedUsers" class="kt-nav linked-accounts"
+                        aria-label="@L("LinkedAccounts")"
+                        role="menu"></ul>
+                </div>
+                <a href="#" class="kt-notification__item" id="UserProfileChangePasswordLink">
+                    <div class="kt-notification__item-icon">
+                        <i class="flaticon-more-v6"></i>
+                    </div>
+                    <div class="kt-notification__item-details">
+                        <div class="kt-notification__item-title kt-font-bold">
+                            <span>
+                                @L("ChangePassword")
+                            </span>
+                        </div>
+                    </div>
+                </a>
+                <a href="#" class="kt-notification__item" id="ShowLoginAttemptsLink">
+                    <div class="kt-notification__item-icon">
+                        <i class="flaticon-list"></i>
+                    </div>
+                    <div class="kt-notification__item-details">
+                        <div class="kt-notification__item-title kt-font-bold">
+                            <span>
+                                @L("LoginAttempts")
+                            </span>
+                        </div>
+                    </div>
+                </a>
+                <a href="#" class="kt-notification__item" id="UserProfileChangePictureLink">
+                    <div class="kt-notification__item-icon">
+                        <i class="flaticon-profile-1"></i>
+                    </div>
+                    <div class="kt-notification__item-details">
+                        <div class="kt-notification__item-title kt-font-bold">
+                            <span>
+                                @L("ChangeProfilePicture")
+                            </span>
+                        </div>
+                    </div>
+                </a>
+                <a href="#" class="kt-notification__item" id="UserProfileMySettingsLink">
+                    <div class="kt-notification__item-icon">
+                        <i class="flaticon-cogwheel"></i>
+                    </div>
+                    <div class="kt-notification__item-details">
+                        <div class="kt-notification__item-title kt-font-bold">
+                            <span>
+                                @L("MySettings")
+                            </span>
+                        </div>
+                    </div>
+                </a>
+                @if (!Model.HasUiCustomizationPagePermission)
+                {
+                    <a href="@Url.Action("Index", "UiCustomization")" class="kt-notification__item" id="UserProfileMySettingsLink">
+                        <div class="kt-notification__item-icon">
+                            <i class="flaticon-medical"></i>
+                        </div>
+                        <div class="kt-notification__item-details">
+                            <div class="kt-notification__item-title kt-font-bold">
+                                <span>
+                                    @L("VisualSettings")
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                }
+                <a href="#" class="kt-notification__item" id="UserDownloadCollectedDataLink">
+                    <div class="kt-notification__item-icon">
+                        <i class="flaticon-download"></i>
+                    </div>
+                    <div class="kt-notification__item-details">
+                        <div class="kt-notification__item-title kt-font-bold">
+                            <span>
+                                @L("DownloadCollectedData")
+                            </span>
+                        </div>
+                    </div>
+                </a>
+                <div class="kt-notification__custom">
+                    <a href="@Url.Action("Logout", "Account", new {area = string.Empty})" class="btn btn-label-brand btn-sm btn-bold">@L("Logout")</a>
+                </div>
+            </div>
+            <!--end: Navigation -->
+        </div>
+    </div>
+
+    @if (isChatEnabled)
+    {
+        <div id="chat_is_connecting_icon" class="kt-header__topbar-item dropdown">
+            <div class="kt-header__topbar-wrapper">
+                <span class="kt-header__topbar-icon kt-header__topbar-icon--brand">
+                    <img src="@(ApplicationPath)Common/Images/loading.gif" style="width: 23px;" tooltip="@L("ChatIsConnecting")" placement="left" />
+                </span>
+            </div>
+        </div>
+        <div id="kt_quick_sidebar_toggle" class="kt-header__topbar-item dropdown d-none">
+            <div class="kt-header__topbar-wrapper">
+                <span class="kt-header__topbar-icon kt-header__topbar-icon--brand">
+                    <i class="flaticon-chat-2"></i>
+                </span>
+            </div>
+        </div>
+    }
+</div>
+
+<script id="linkedAccountsSubMenuTemplate" type="x-tmpl-mustache">
+    {{#items}}
+    <li class="kt-nav__item py-2">
+        <a href="" data-user-id="{{id}}" data-tenant-id="{{tenantId}}" class="recently-linked-user">
+            <span class="kt-nav__link-bullet">
+                <span></span>
+            </span>
+            <span class="kt-nav__link-text">
+                {{shownUserName}}
+            </span>
+        </a>
+    </li>
+    {{/items}}
+</script>
+<script id="headerNotificationBarTemplate" type="x-tmpl-mustache">
+    <div class="kt-header__topbar-wrapper" data-toggle="dropdown" data-offset="30px,0px" aria-expanded="true">
+        <span class="kt-header__topbar-icon kt-header__topbar-icon--brand">
+            {{#unreadCount}}
+            <i class="flaticon-alert-2 unread-notification"></i>
+            <span class="kt-badge kt-badge--primary unread-notification-count">
+                {{unreadCount}}
+            </span>
+            {{/unreadCount}}
+            {{^unreadCount}}
+            <i class="flaticon-alarm"></i>
+            {{/unreadCount}}
+        </span>
+    </div>
+    <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right dropdown-menu-anim dropdown-menu-top-unround dropdown-menu-lg">
+        <div class="kt-head kt-head--skin-dark kt-head--fit-x kt-head--fit-b" style="background: url(@(ApplicationPath)metronic/themes/@theme.BaseSettings.Theme/images/bg/bg-1.jpg); background-size: cover; min-height: 100px;">
+            <h3 class="kt-head__title">
+                <span class="btn btn-success btn-sm btn-bold btn-font-md">{{unreadCount}} @L("NewNotifications")</span>
+            </h3>
+        </div>
+        <div class="kt-grid-nav kt-grid-nav--skin-light">
+            <div class="row m-4">
+                <div class="text-left col-md-8">
+                    {{#unreadCount}}
+                    <a href="" id="setAllNotificationsAsReadLink">@L("SetAllAsRead")</a>
+                    {{/unreadCount}}
+                </div>
+                <div class="text-right col-md-4">
+                    <a id="openNotificationSettingsModalLink" class="text-right" href="">@L("Settings")</a>
+                </div>
+            </div>
+            <hr />
+            <div class="kt-notification kt-margin-t-10 kt-margin-b-10 kt-scroll" data-scroll="true" data-height="300" data-mobile-height="200" style="height: 300px; overflow: hidden;">
+                {{#notifications}}
+                <a class="kt-notification__item {{#url}}user-notification-item-clickable{{/url}} {{#isUnread}}user-notification-item-unread{{/isUnread}}" data-url="{{url}}">
+                    <div class="kt-notification__item-icon">
+                        <i class="{{icon}} kt-font-success"></i>
+                    </div>
+                    <div class="kt-notification__item-details">
+                        <div class="kt-notification__item-title">
+                            {{text}}
+                        </div>
+                        <div class="kt-notification__item-time">
+                            {{timeAgo}}
+                            {{#isUnread}}
+                            <span data-notification-id="{{userNotificationId}}" class="set-notification-as-read">
+                                @L("SetAsRead")
+                            </span>
+                            {{/isUnread}}
+                        </div>
+                    </div>
+                </a>
+                {{/notifications}}
+                {{^notifications.length}}
+                <span class="notification-empty-text p-3">
+                    @L("ThereIsNoNotification")
+                </span>
+                {{/notifications.length}}
+            </div>
+            {{#notifications.length}}
+            <hr />
+            <div class="m-4">
+                <div class="text-center"><a href="@Url.Action("Index", "Notifications", new {area = "AppAreaName"})">@L("SeeAllNotifications")</a></div>
+            </div>
+            {{/notifications.length}}
+        </div>
+    </div>
+</script>

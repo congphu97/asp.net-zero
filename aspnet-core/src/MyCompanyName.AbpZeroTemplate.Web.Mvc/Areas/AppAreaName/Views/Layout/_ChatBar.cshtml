@@ -1,0 +1,228 @@
+﻿@using MyCompanyName.AbpZeroTemplate.Chat
+
+<!-- begin::Quick Sidebar -->
+<div id="kt_quick_sidebar" class="kt-quick-panel">
+    <a href="#" class="kt-quick-panel__close quick-panel-action-button" id="kt_quick_sidebar_close">
+        <i class="flaticon2-delete"></i>
+    </a>
+    <a href="#" id="kt_quick_sidebar_back" class="quick-panel-action-button quick-sidebar-back d-none">
+        <i class="fa fa-arrow-alt-circle-left" aria-label="@L(" Back")"></i>
+    </a>
+    <a href="javascript:;" class="quick-panel-action-button page-quick-sidebar-pinner">
+        <i class="fa fa-map-pin" aria-label="@L(" Pin")"></i>
+    </a>
+    <div class="kt-quick-panel__content">
+        <div class="kt-portlet kt-messenger-friends">
+            <div class="kt-portlet__body">
+                <div class="kt-searchbar">
+                    <div class="kt-input-icon kt-input-icon--right">
+                        <input type="text" id="ChatUserSearchUserName" class="form-control input-sm" placeholder="@L("FilterOrAddUser")">
+                        <span class="kt-input-icon__icon kt-input-icon__icon--right">
+                            <span>
+                                <i id="InterTenantChatHintIcon" class="la la-info-circle" data-toggle="kt-popover" data-placement="bottom" data-html="true" title="@L("ChatUserSearch_Hint")"></i>
+                            </span>
+                        </span>
+                    </div>
+                    <button id="SearchChatUserButton" type="button" class="btn btn-block btn-success d-none">@L("AddFriend")</button>
+                </div>
+                <div class="kt-widget kt-widget--users kt-mt-20">
+                    <div class="kt-scroll kt-scroll--pull">
+                        <div class="kt-widget__items">
+                            <div id="friendListFriends"></div>
+                            <p id="EmptyFriendListInfo">@L("YouDontHaveAnyFriend")</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="kt-widget kt-widget--users kt-mt-20">
+                    <h5>@L("BlockedUsers")</h5>
+                    <div class="kt-scroll kt-scroll--pull">
+                        <div class="kt-widget__items">
+                            <div id="friendListBlockeds"></div>
+                            <p id="EmptyBlockedFriendListInfo">@L("YouDontHaveAnyBlockedFriend")</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="kt-chat kt-messenger-conversation">
+            <div class="kt-portlet kt-portlet--last">
+                <div class="kt-portlet__head">
+                    <div class="kt-chat__head ">
+                        <div class="kt-chat__left">
+                            <div class="kt-chat__label">
+                                <a href="#" class="kt-chat__title" id="selectedChatUserName"></a>
+                                <span class="kt-chat__status" id="selectedChatUserStatus">
+                                    <span class="kt-badge kt-badge--dot kt-badge--success"></span>
+                                    <small></small>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="kt-chat__right">
+                            <div class="dropdown dropdown-inline">
+                                <button type="button" class="btn btn-clean btn-sm btn-icon btn-icon-md" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="flaticon-more-1"></i>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right dropdown-menu-md">
+                                    <ul class="kt-nav">
+                                        <li id="liBanChatUser" class="kt-nav__item">
+                                            <a href="javascript:;" class="kt-nav__link">
+                                                <i class="kt-nav__link-icon fa fa-ban"></i>
+                                                <span class="kt-nav__link-text">@L("BlockUser")</span>
+                                            </a>
+                                        </li>
+                                        <li id="liUnbanChatUser" class="kt-nav__item">
+                                            <a href="javascript:;" class="kt-nav__link">
+                                                <i class="kt-nav__link-icon fa fa-check"></i>
+                                                <span class="kt-nav__link-text">@L("UnblockUser")</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="kt-portlet__body">
+                    <div class="kt-chat__messages kt-chat__messages--modal" id="UserChatMessages">
+
+                    </div>
+                </div>
+                <div class="kt-portlet__foot">
+                    <form name="chatMessageForm" id="chatMessageForm" role="form">
+                        <div id="files" class="files"></div>
+                        <div class="col-md-12" style="margin: 5px; padding-right: 25px;">
+                            <button id="UnblockUserButton" type="button" class="btn btn-block btn-success">@L("UnblockUser")</button>
+                        </div>
+
+                        <div class="col-md-12 chat-progress-bar">
+                            <div id="chatFileUploadProgress" class="progress">
+                                <div class="progress-bar progress-bar-success"></div>
+                            </div>
+                        </div>
+                        <div class="kt-chat__input" id="ChatMessageWrapper">
+                            <div class="kt-chat__editor">
+                                <textarea id="ChatMessage" type="text" name="message" class="kt-messenger__forkt-input" placeholder="@L("TypeAMessageHere")" required maxlength="@ChatMessage.MaxMessageLength">
+                                </textarea>
+                            </div>
+                            <div class="kt-chat__toolbar">
+                                <div class="kt_chat__tools">
+                                    <a id="chatDropdownToggle" href="" class="kt-messenger__form-attachment select-media" data-toggle="dropdown" tabindex="-1" aria-expanded="false">
+                                        <i class="la la-paperclip" aria-label="@L(" Attach")"></i>
+                                    </a>
+                                    <ul class="dropdown-menu pull-right bottom-up" role="menu">
+                                        <li>
+                                            <a href="javascript:;">
+                                                <span class="fileinput-button">
+                                                    <i class="fa fa-camera" aria-hidden="true"></i>
+                                                    <span>@L("Image")</span>
+                                                    <!-- The file input field used as target for the file upload widget -->
+                                                    <input id="chatImageUpload" type="file" name="files">
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:;">
+                                                <span class="fileinput-button">
+                                                    <i class="fa fa-file" aria-hidden="true"></i>
+                                                    <span>@L("File")</span>
+                                                    <!-- The file input field used as target for the file upload widget -->
+                                                    <input id="chatFileUpload" type="file" name="files">
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:;" id="btnLinkShare">
+                                                <i class="fa fa-link" aria-hidden="true"></i>
+                                                <span>@L("LinkToCurrentPage")</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="kt_chat__actions">
+                                    <button type="button" id="SendChatMessageButton" class="btn btn-brand btn-md  btn-font-sm btn-upper btn-bold kt-chat__reply">@L("Reply")</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end::Quick Sidebar -->
+
+<script id="UserFriendTemplate" type="x-tmpl-mustache">
+    {{#.}}
+    <div class="kt-widget__item" data-friend-tenant-id="{{friendTenantId}}" data-friend-user-id="{{friendUserId}}">
+        <span class="kt-userpic kt-userpic--circle">
+            <img src="{{profilePicturePath}}" alt="image">
+        </span>
+        <div class="kt-widget__info">
+            <div class="kt-widget__section">
+                <a href="#" class="kt-widget__username">{{friendUserName}}</a>
+                {{#isOnline}}
+                <span class="kt-badge kt-badge--online kt-badge--dot"></span>
+                {{/isOnline}}
+                {{^isOnline}}
+                <span class="kt-badge kt-badge--offline kt-badge--dot"></span>
+                {{/isOnline}}
+            </div>
+            <span class="kt-widget__desc">
+                {{friendTenancyName}}
+                {{^friendTenancyName}}
+                Host
+                {{/friendTenancyName}}
+            </span>
+        </div>
+        <div class="kt-widget__action">
+            {{#unreadMessageCount}}
+            <span class="kt-badge kt-badge--warning">
+                {{unreadMessageCount}}
+            </span>
+            {{/unreadMessageCount}}
+            {{^unreadMessageCount}}
+            <span class="kt-badge kt-badge--warning d-none">
+                {{unreadMessageCount}}
+            </span>
+            {{/unreadMessageCount}}
+        </div>
+    </div>
+    {{/.}}
+</script>
+
+<script id="UserChatMessageTemplate" type="x-tmpl-mustache">
+    {{#.}}
+    {{^isIn}}
+    <div class="kt-chat__message kt-chat__message--right kt-bg-light-brand">
+        <div class="kt-chat__user">
+            <span class="kt-chat__datetime">
+                <time class="timeago" datetime="{{creationTime}}"></time> {{{readStateCheck}}}
+            </span>
+            <a href="#" class="kt-chat__username">{{shownUserName}}</a>
+            <span class="kt-userpic kt-userpic--circle kt-userpic--sm">
+                <img src="{{profilePicturePath}}" alt="image">
+            </span>
+        </div>
+        <div class="kt-chat__text">
+            {{{formattedMessage}}}
+        </div>
+    </div>
+    {{/isIn}}
+    {{#isIn}}
+    <div class="kt-chat__message kt-bg-light-success">
+        <div class="kt-chat__user">
+            <span class="kt-userpic kt-userpic--circle kt-userpic--sm">
+                <img src="{{profilePicturePath}}" alt="image">
+            </span>
+            <a href="#" class="kt-chat__username">{{shownUserName}}</a>
+            <span class="kt-chat__datetime">
+                <time class="timeago" datetime="{{creationTime}}"></time> {{{readStateCheck}}}
+            </span>
+        </div>
+        <div class="kt-chat__text">
+            {{{formattedMessage}}}
+        </div>
+    </div>
+    {{/isIn}}
+    {{/.}}
+</script>
