@@ -42,7 +42,7 @@
     "jquery": "^3.4.1",
     "js-cookie": "^2.2.0",
     "localforage": "^1.7.3",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.21",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.25",
     "ng-multiselect-dropdown": "^0.2.5",
